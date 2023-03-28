@@ -1,0 +1,119 @@
+name: Build and run tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      openblas_repository:
+        description: "OpenBLAS repository"
+        required: true
+        default: "xianyi/OpenBLAS"
+        type: string
+      openblas_branch:
+        description: "OpenBLAS branch"
+        required: true
+        default: "develop"
+        type: string
+      pytorch_repository:
+        description: "PyTorch repository"
+        required: true
+        default: "Blackhex/pytorch"
+        type: string
+      pytorch_branch:
+        description: "PyTorch branch"
+        required: true
+        default: "run-tests"
+        type: string
+      build_openblas_msvc:
+        description: "Build OpenBLAS with MSVC"
+        required: false
+        default: false
+        type: boolean
+      build_openblas_clang:
+        description: "Build OpenBLAS with Clang"
+        required: false
+        default: false
+        type: boolean
+      build_pytorch:
+        description: "Build PyTorch"
+        required: false
+        default: false
+        type: boolean
+      build_pytorch_openblas:
+        description: "Build PyTorch with OpenBLAS"
+        required: false
+        default: false
+        type: boolean
+      run_core_tests:
+        description: "Run core unit tests"
+        required: false
+        default: false
+        type: boolean
+      wipe_cache:
+          description: "Completely wipe build cache"
+          required: false
+          default: false
+          type: boolean
+defaults:
+  run:
+    shell: cmd
+
+jobs:
+  build_and_test:
+    name: Build and run tests
+    runs-on: [self-hosted, Windows, ARM64, WASM]
+    timeout-minutes: 480
+    steps:
+      - name: Git checkout workflow
+        uses: actions/checkout@v3
+        with:
+          path: pytorch-unit-tests/workflow
+      - name: Git checkout OpenBLAS
+        if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.openblas_repository }}
+          ref: ${{ inputs.openblas_branch }}
+          path: pytorch-unit-tests/openblas
+          submodules: recursive
+          clean: false
+      - name: Git checkout PyTorch
+        if: ${{ inputs.build_pytorch }}
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.pytorch_repository }}
+          ref: ${{ inputs.pytorch_branch }}
+          path: pytorch-unit-tests/pytorch
+          submodules: recursive
+          clean: false
+      - name: Wipe build cache
+        if: ${{ inputs.wipe_cache }}
+        working-directory: pytorch-unit-tests/pytorch                    
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/wipe_pytorch_cache.bat
+      - name: Build OpenBLAS with MSVC
+        if: ${{ inputs.build_openblas_msvc }}
+        working-directory: pytorch-unit-tests/openblas
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/build_openblas_msvc.bat
+      - name: Build OpenBLAS with Clang
+        if: ${{ inputs.build_openblas_clang }}
+        working-directory: pytorch-unit-tests/openblas
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/build_openblas_clang.bat
+      - name: Bootstrap PyTorch build
+        if: ${{ inputs.build_pytorch }}
+        working-directory: pytorch-unit-tests/pytorch
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/bootstrap_pytorch.bat
+      - name: Bootstrap PyTorch tests
+        if: ${{ inputs.run_core_tests }}
+        working-directory: pytorch-unit-tests/pytorch
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/bootstrap_tests.bat        
+      - name: Build PyTorch
+        if: ${{ inputs.build_pytorch }}
+        working-directory: pytorch-unit-tests/pytorch
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/build_pytorch.bat ${{ inputs.build_pytorch_openblas }}
+      - name: Run core tests
+        if: ${{ inputs.run_core_tests }}
+        working-directory: pytorch-unit-tests/pytorch/test
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/test_core.bat
+      - name: Clean up PyTorch
+        if: ${{ inputs.build_pytorch }}
+        working-directory: pytorch-unit-tests/pytorch
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/cleanup_pytorch.bat
