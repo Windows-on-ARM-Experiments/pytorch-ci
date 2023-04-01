@@ -61,7 +61,7 @@ jobs:
   build_and_test:
     name: Build and run tests
     runs-on: [self-hosted, Windows, ARM64, WASM]
-    timeout-minutes: 480
+    timeout-minutes: 600
     steps:
       - name: Git checkout workflow
         uses: actions/checkout@v3
