@@ -10,9 +10,7 @@ if "%visualstudio%" == "" (
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
-if "%1" == "true" (
-  set BLAS=OpenBLAS
-  set OpenBLAS_HOME=%GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\install
-)
+set BLAS=OpenBLAS
+set OpenBLAS_HOME=%GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\install
 
 python setup.py install --cmake

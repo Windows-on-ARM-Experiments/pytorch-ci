@@ -13,16 +13,6 @@ on:
         required: true
         default: "develop"
         type: string
-      pytorch_repository:
-        description: "PyTorch repository"
-        required: true
-        default: "Blackhex/pytorch"
-        type: string
-      pytorch_branch:
-        description: "PyTorch branch"
-        required: true
-        default: "run-tests"
-        type: string
       build_openblas_msvc:
         description: "Build OpenBLAS with MSVC"
         required: false
@@ -38,21 +28,26 @@ on:
         required: false
         default: false
         type: boolean
-      build_pytorch_openblas:
-        description: "Build PyTorch with OpenBLAS"
+      run_tests:
+        description: "Run tests"
         required: false
         default: false
         type: boolean
-      run_core_tests:
-        description: "Run core unit tests"
+      run_tests_suite:
+        description: "Test suite to run"
         required: false
-        default: false
-        type: boolean
+        default: ""
+        type: string
+      run_tests_filter:
+        description: "Test filter to run"
+        required: false
+        default: ""
+        type: string
       wipe_cache:
-          description: "Completely wipe build cache"
-          required: false
-          default: false
-          type: boolean
+        description: "Completely wipe build cache"
+        required: false
+        default: false
+        type: boolean
 defaults:
   run:
     shell: cmd
@@ -77,11 +72,11 @@ jobs:
           submodules: recursive
           clean: false
       - name: Git checkout PyTorch
-        if: ${{ inputs.build_pytorch }}
+        if: ${{ inputs.build_pytorch || inputs.run_tests }}
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.pytorch_repository }}
-          ref: ${{ inputs.pytorch_branch }}
+          repository: "Blackhex/pytorch"
+          ref: "run-tests"
           path: pytorch-unit-tests/pytorch
           submodules: recursive
           clean: false
@@ -102,17 +97,17 @@ jobs:
         working-directory: pytorch-unit-tests/pytorch
         run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/bootstrap_pytorch.bat
       - name: Bootstrap PyTorch tests
-        if: ${{ inputs.run_core_tests }}
+        if: ${{ inputs.run_tests }}
         working-directory: pytorch-unit-tests/pytorch
         run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/bootstrap_tests.bat
       - name: Build PyTorch
         if: ${{ inputs.build_pytorch }}
         working-directory: pytorch-unit-tests/pytorch
-        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/build_pytorch.bat ${{ inputs.build_pytorch_openblas }}
-      - name: Run core tests
-        if: ${{ inputs.run_core_tests }}
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/build_pytorch.bat
+      - name: Run tests
+        if: ${{ inputs.run_tests }}
         working-directory: pytorch-unit-tests/pytorch/test
-        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/test_core.bat
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/test.bat ${{ inputs.run_tests_suite }} ${{ inputs.run_tests_filter }}
       - name: Clean up PyTorch
         if: ${{ inputs.build_pytorch }}
         working-directory: pytorch-unit-tests/pytorch
