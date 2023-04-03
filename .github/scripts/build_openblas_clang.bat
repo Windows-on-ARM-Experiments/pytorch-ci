@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
