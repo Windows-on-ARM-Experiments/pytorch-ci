@@ -14,6 +14,6 @@ call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 mkdir build
 cd build
 
-call cmake -G Ninja -DBUILD_TESTING=0 ..
-call cmake --build . --config Release
-call cmake --install . --prefix ../install
+cmake .. -G Ninja -DBUILD_TESTING=0
+cmake --build . --config Release
+cmake --install . --prefix ../install
