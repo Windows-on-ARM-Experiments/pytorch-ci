@@ -1,6 +1,7 @@
-@echo off
+pip uninstall torch -y
+pip uninstall pytorch -y
 
-call %GITHUB_WORKSPACE%\pytorch-unit-tests\workflow\.github\scripts\cleanup_pytorch.bat
+del %GITHUB_WORKSPACE%\pytorch-unit-tests\pytorch\install\* /s /q /f
 
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt

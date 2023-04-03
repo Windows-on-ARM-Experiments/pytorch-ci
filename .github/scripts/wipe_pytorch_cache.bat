@@ -1,3 +1,1 @@
-@echo off
-
-del build\* /s /q /f
+del %GITHUB_WORKSPACE%\pytorch-unit-tests\pytorch\build\* /s /q /f

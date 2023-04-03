@@ -1,0 +1,16 @@
+name: Wipe build cache
+
+on: workflow_dispatch
+
+defaults:
+  run:
+    shell: cmd
+
+jobs:
+  wipe_build_cache:
+    name: Build and run tests
+    runs-on: [self-hosted, Windows, ARM64, WASM]
+    timeout-minutes: 600
+    steps:
+      - name: Wipe build cache
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/wipe_pytorch_cache.bat
