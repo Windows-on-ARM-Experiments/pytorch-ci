@@ -1,5 +1,3 @@
-@echo off
-
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
 for /f "delims=" %%v in ('"%vswhere%" -latest -property installationPath') do set "visualstudio=%%v"
@@ -10,9 +8,8 @@ if "%visualstudio%" == "" (
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
-if "%1" == "true" (
-  set BLAS=OpenBLAS
-  set OpenBLAS_HOME=%GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\install
-)
+set BLAS=OpenBLAS
+set OpenBLAS_HOME=%GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\install
 
-python setup.py install --cmake
+python setup.py install --cmake --home=%GITHUB_WORKSPACE%\pytorch-unit-tests\pytorch\install  
+python setup.py install
