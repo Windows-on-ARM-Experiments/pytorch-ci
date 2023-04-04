@@ -87,7 +87,7 @@ jobs:
           clean: false
       - name: Wipe build cache
         if: ${{ inputs.wipe_cache }}
-        working-directory: pytorch-unit-tests/pytorch                    
+        working-directory: pytorch-unit-tests/pytorch
         run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/wipe_pytorch_cache.bat
       - name: Build OpenBLAS with MSVC
         if: ${{ inputs.build_openblas_msvc }}
@@ -104,7 +104,7 @@ jobs:
       - name: Bootstrap PyTorch tests
         if: ${{ inputs.run_core_tests }}
         working-directory: pytorch-unit-tests/pytorch
-        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/bootstrap_tests.bat        
+        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/bootstrap_tests.bat
       - name: Build PyTorch
         if: ${{ inputs.build_pytorch }}
         working-directory: pytorch-unit-tests/pytorch

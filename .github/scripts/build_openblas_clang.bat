@@ -8,12 +8,11 @@ if "%visualstudio%" == "" (
   goto :eof
 )
 
-
-call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
-
 mkdir build
 cd build
 
-echo "TODO: Not implemented yet."
+path=%path%;%visualstudio%\VC\Tools\Llvm\ARM64\bin
 
-exit(1)
+cmake ..  -G Ninja -DCMAKE_C_COMPILER=clang -DNOFORTRAN=1 -DDYNAMIC_ARCH=0 -DTARGET=ARMV8 -DARCH=arm64 -DBINARY=64 -DUSE_OPENMP=0 -DCMAKE_SYSTEM_PROCESSOR=ARM64 -DCMAKE_CROSSCOMPILING=1 -DCMAKE_SYSTEM_NAME=Windows
+cmake --build . --config Release
+cmake --install . --prefix ../install
