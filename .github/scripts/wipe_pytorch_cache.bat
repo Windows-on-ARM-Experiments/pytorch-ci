@@ -1,1 +1,1 @@
-del %GITHUB_WORKSPACE%\pytorch-unit-tests\pytorch\build\* /s /q /f
+del %JOB_DIR%\pytorch\build\* /s /q /f
