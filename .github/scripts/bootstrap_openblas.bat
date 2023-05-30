@@ -1,2 +1,4 @@
-del %GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\build /s /q /f
-del %GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\install /s /q /f
+echo %JOB_DIR% 
+
+del %JOB_DIR%\openblas\build /s /q /f
+del %JOB_DIR%\openblas\install /s /q /f

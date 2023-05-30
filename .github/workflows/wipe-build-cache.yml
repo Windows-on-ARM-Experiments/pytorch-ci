@@ -6,6 +6,10 @@ defaults:
   run:
     shell: cmd
 
+env:
+  JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
+  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
+
 jobs:
   wipe_build_cache:
     name: Build and run tests
@@ -13,4 +17,4 @@ jobs:
     timeout-minutes: 600
     steps:
       - name: Wipe build cache
-        run: ${{ github.workspace }}/pytorch-unit-tests/workflow/.github/scripts/wipe_pytorch_cache.bat
+        run: ${{ env.SCRIPTS_DIR }}/wipe_pytorch_cache.bat

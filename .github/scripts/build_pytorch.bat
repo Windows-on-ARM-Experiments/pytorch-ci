@@ -8,8 +8,14 @@ if "%visualstudio%" == "" (
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
+cd %JOB_DIR%\pytorch
+
+set REL_WITH_DEB_INFO=1
+set CMAKE_BUILD_TYPE=RelWithDebInfo
+
 set BLAS=OpenBLAS
-set OpenBLAS_HOME=%GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\install
+set OpenBLAS_HOME=%JOB_DIR%\openblas\install
+
 set USE_CUDA=OFF
 set USE_DISTRIBUTED=OFF
 set USE_FAKELOWP=OFF
@@ -24,5 +30,5 @@ set USE_ROCM=OFF
 set USE_TENSORPIPE=OFF
 set USE_XNNPACK=OFF
 
-python setup.py install --cmake --home=%GITHUB_WORKSPACE%\pytorch-unit-tests\pytorch\install  
+python setup.py install --cmake --home=%JOB_DIR%\pytorch\install
 python setup.py install
