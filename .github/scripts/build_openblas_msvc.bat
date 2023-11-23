@@ -8,8 +8,10 @@ if "%visualstudio%" == "" (
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
-mkdir %GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\build
-cd %GITHUB_WORKSPACE%\pytorch-unit-tests\openblas\build
+mkdir %JOB_DIR%\openblas\build
+cd %JOB_DIR%\openblas\build
+
+set CMAKE_BUILD_TYPE=RelWithDebInfo
 
 cmake .. -G Ninja -DBUILD_TESTING=0
 cmake --build . --config Release
