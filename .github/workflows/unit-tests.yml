@@ -11,7 +11,7 @@ on:
       openblas_branch:
         description: "OpenBLAS branch"
         required: true
-        default: "develop"
+        default: "release-0.3.0"
         type: string
       build_openblas_msvc:
         description: "Build OpenBLAS with MSVC"
