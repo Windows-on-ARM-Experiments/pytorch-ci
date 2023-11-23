@@ -1,3 +1,5 @@
+@echo on
+
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
 for /f "delims=" %%v in ('"%vswhere%" -latest -property installationPath') do set "visualstudio=%%v"
@@ -13,8 +15,12 @@ cd %JOB_DIR%\pytorch
 set REL_WITH_DEB_INFO=1
 set CMAKE_BUILD_TYPE=RelWithDebInfo
 
-set BLAS=OpenBLAS
-set OpenBLAS_HOME=%JOB_DIR%\openblas\install
+echo %ENABLE_OPENBLAS%
+
+if "%ENABLE_OPENBLAS%" == "1" (
+  set BLAS=OpenBLAS
+  set OpenBLAS_HOME=%JOB_DIR%\openblas\install
+)
 
 set USE_CUDA=OFF
 set USE_DISTRIBUTED=OFF

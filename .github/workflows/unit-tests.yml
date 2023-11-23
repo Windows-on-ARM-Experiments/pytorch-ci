@@ -48,15 +48,14 @@ on:
         required: true
         default: 1
         type: number
-defaults:
-  run:
-    shell: cmd
 
 env:
   JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
+  ENABLE_OPENBLAS: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
 
 jobs:
+
   build_and_test:
     name: Build and run tests
     runs-on: [self-hosted, Windows, ARM64, WASM]
@@ -74,31 +73,34 @@ jobs:
           ref: ${{ inputs.openblas_branch }}
           path: ${{ env.JOB_DIR }}/openblas
           submodules: recursive
-          clean: false
       - name: Git checkout PyTorch
         if: ${{ inputs.build_pytorch || inputs.run_tests }}
         uses: actions/checkout@v3
         with:
           repository: "Blackhex/pytorch"
-          ref: "run-tests"
+          ref: "main"
           path: ${{ env.JOB_DIR }}/pytorch
           submodules: recursive
-          clean: false
       - name: Bootstrap OpenBLAS build
         if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
-        run: ${{ env.SCRIPTS_DIR }}/bootstrap_openblas.bat
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_openblas.bat
       - name: Bootstrap PyTorch build
         if: ${{ inputs.build_pytorch }}
-        run: ${{ env.SCRIPTS_DIR }}/bootstrap_pytorch.bat
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
       - name: Bootstrap PyTorch tests
         if: ${{ inputs.run_tests }}
-        run: ${{ env.SCRIPTS_DIR }}/bootstrap_tests.bat
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_tests.bat
       - name: Build OpenBLAS with MSVC
         if: ${{ inputs.build_openblas_msvc }}
-        run: ${{ env.SCRIPTS_DIR }}/build_openblas_msvc.bat
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
       - name: Build OpenBLAS with Clang
         if: ${{ inputs.build_openblas_clang }}
-        run: ${{ env.SCRIPTS_DIR }}/build_openblas_clang.bat
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_openblas_clang.bat
       - name: Archive OpenBLAS
         if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
         uses: actions/upload-artifact@v3
@@ -108,7 +110,8 @@ jobs:
           retention-days: 3
       - name: Build PyTorch
         if: ${{ inputs.build_pytorch }}
-        run: ${{ env.SCRIPTS_DIR }}/build_pytorch.bat
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
       - name: Archive PyTorch
         if: ${{ inputs.build_pytorch }}
         uses: actions/upload-artifact@v3
@@ -118,7 +121,8 @@ jobs:
           retention-days: 3
       - name: Run tests
         if: ${{ inputs.run_tests }}
-        run: ${{ env.SCRIPTS_DIR }}/test.bat ${{ inputs.run_tests_runs}} ${{ inputs.run_tests_suite }} ${{ inputs.run_tests_filter }}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\test.bat ${{ inputs.run_tests_runs}} ${{ inputs.run_tests_suite }} ${{ inputs.run_tests_filter }}
       - name: Archive test resutls
         if: ${{ always() && inputs.run_tests }}
         uses: actions/upload-artifact@v3
