@@ -1,7 +1,18 @@
-name: Wipe build cache
+name: Wipe runner caches
 
-on: workflow_dispatch
-
+on: 
+  workflow_dispatch:
+    inputs:
+      wipe_pytorch_sources:
+        description: "Wipe PyTorch sources"
+        required: false
+        default: false
+        type: boolean
+      wipe_pytorch_build:
+        description: "Wipe PyTorch build"
+        required: false
+        default: false
+        type: boolean
 defaults:
   run:
     shell: cmd
@@ -9,16 +20,22 @@ defaults:
 env:
   JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-unit-tests\pytorch
+  PYTORCH_BUILD_DIR:  ${{ github.workspace }}\pytorch-unit-tests\pytorch\build
 
 jobs:
-  wipe_build_cache:
-    name: Build and run tests
+  wipe:
+    name: Wipe runner caches
     runs-on: [self-hosted, Windows, ARM64, WASM]
     timeout-minutes: 600
     steps:
       - name: Git checkout workflow
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.JOB_DIR }}\workflow
-      - name: Wipe build cache
-        run: ${{ env.SCRIPTS_DIR }}\wipe_pytorch_cache.bat
+      - name: Wipe PyTorch sources
+        if: ${{ inputs.wipe_pytorch_sources }}
+        run: ${{ env.SCRIPTS_DIR }}\wipe_pytorch_sources.bat
+      - name: Wipe PyTorch build
+        if: ${{ inputs.wipe_pytorch_build }}
+        run: ${{ env.SCRIPTS_DIR }}\wipe_pytorch_build.bat
