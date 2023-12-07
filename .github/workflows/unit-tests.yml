@@ -58,7 +58,7 @@ jobs:
 
   build_and_test:
     name: Build and run tests
-    runs-on: [self-hosted, Windows, ARM64, WASM]
+    runs-on: [self-hosted, Windows, ARM64, PYTORCH]
     timeout-minutes: 800
     steps:
       - name: Git checkout workflow
