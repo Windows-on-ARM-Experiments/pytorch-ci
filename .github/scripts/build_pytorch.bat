@@ -3,7 +3,8 @@
 if "%ENABLE_APL%" == "1" (
   ::set BLAS=APL
   pushd .github\scripts
-  call get-apl.bat
+  dir
+  call get-APL.bat
   popd
 )
 
