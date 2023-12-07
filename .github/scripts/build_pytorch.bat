@@ -10,6 +10,11 @@ if "%visualstudio%" == "" (
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
+if "%ENABLE_APL%" == "1" (
+  set BLAS=APL
+  call get-apl.bat
+)
+
 cd %JOB_DIR%\pytorch
 
 set REL_WITH_DEB_INFO=1
@@ -20,10 +25,6 @@ echo %ENABLE_OPENBLAS%
 if "%ENABLE_OPENBLAS%" == "1" (
   set BLAS=OpenBLAS
   set OpenBLAS_HOME=%JOB_DIR%\openblas\install
-)
-if "%ENABLE_APL%" == "1" (
-  set BLAS=APL
-  call get-apl.bat
 )
 
 set USE_CUDA=OFF
