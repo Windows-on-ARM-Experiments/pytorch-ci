@@ -39,7 +39,7 @@ env:
 jobs:
   wipe:
     name: Wipe runner caches
-    runs-on: [self-hosted, Windows, ARM64, WASM]
+    runs-on: [self-hosted, Windows, ARM64, PYTORCH]
     timeout-minutes: 600
     steps:
       - name: Git checkout workflow
