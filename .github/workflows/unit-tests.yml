@@ -53,6 +53,7 @@ env:
   JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
   ENABLE_OPENBLAS: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
+  ENABLE_APL : 1
 
 jobs:
 
