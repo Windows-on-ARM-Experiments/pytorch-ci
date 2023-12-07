@@ -1,8 +1,10 @@
 @echo on
 
 if "%ENABLE_APL%" == "1" (
-  set BLAS=APL
+  ::set BLAS=APL
+  pushd .github\scripts
   call get-apl.bat
+  popd
 )
 
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
