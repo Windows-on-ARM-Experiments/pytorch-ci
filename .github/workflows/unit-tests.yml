@@ -79,7 +79,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: "JaneaSystems/pytorch"
-          ref: "main"
+          ref: "arm64_windows_2"
           path: ${{ env.JOB_DIR }}/pytorch
           submodules: recursive
       - name: Bootstrap OpenBLAS build
