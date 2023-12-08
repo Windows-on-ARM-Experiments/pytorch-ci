@@ -10,7 +10,8 @@ set DEST_DIR=%JOB_DIR%
     curl -L -o "%ZIP_FILE%" "%FILE_URL%"
     dir
     echo Unzipping the file...
-	tar -xf "%ZIP_FILE%" -C %DEST_DIR%\
+	tar -xf "%ZIP_FILE%"
+    dir
 	del %ZIP_FILE%
 	
 ::) else (
