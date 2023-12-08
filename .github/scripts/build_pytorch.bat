@@ -1,18 +1,12 @@
 @echo on
 
 
-  ::set BLAS=APL
-  dir /s /b "get-APL.bat"
-  dir
-  pushd ..
-  dir
-  pushd .github\scripts
-  dir
+if "%ENABLE_APL%" == "1" (
+  pushd pytorch-unit-tests\workflow\.github\scripts
   call get-APL.bat
   popd
-  popd
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-
+)
   
 
 
