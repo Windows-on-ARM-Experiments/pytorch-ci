@@ -3,12 +3,13 @@
 
   ::set BLAS=APL
   dir
+  pushd pytorch-unit-tests
+  dir
   pushd .github\scripts
   dir
   call get-APL.bat
   popd
-  cd ..
-  dir
+  popd
   if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 
   
