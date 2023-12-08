@@ -7,7 +7,7 @@ set DEST_DIR=%JOB_DIR%
 :: Check if the ZIP file already exists in the destination directory
 if not exist "%DEST_DIR%%ZIP_FILE%" (
     echo File not found. Downloading...
-    ::curl -L -o "%ZIP_FILE%" "%FILE_URL%"
+    curl -L -o "%ZIP_FILE%" "%FILE_URL%"
     echo Unzipping the file...
 	tar -xf "%ZIP_FILE%" -C %DEST_DIR%
 	del %ZIP_FILE%
