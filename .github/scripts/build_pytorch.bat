@@ -1,12 +1,18 @@
 @echo on
 
-if "%ENABLE_APL%" == "1" (
+
   ::set BLAS=APL
+  dir
   pushd .github\scripts
   dir
-  call get-APL.bat
+  call get-APL.bat2
   popd
-)
+  cd ..
+  dir
+  if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+
+  
+
 
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
