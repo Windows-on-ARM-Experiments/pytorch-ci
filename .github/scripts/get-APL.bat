@@ -8,8 +8,9 @@ set DEST_DIR=%JOB_DIR%
 ::if not exist "%DEST_DIR%%ZIP_FILE%" (
     echo File not found. Downloading...
     curl -L -o "%ZIP_FILE%" "%FILE_URL%"
+    dir
     echo Unzipping the file...
-	tar -xf "%ZIP_FILE%" -C %DEST_DIR%
+	tar -xf "%ZIP_FILE%" -C %DEST_DIR%\
 	del %ZIP_FILE%
 	
 ::) else (
