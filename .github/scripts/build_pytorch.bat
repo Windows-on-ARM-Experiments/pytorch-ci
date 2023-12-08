@@ -3,7 +3,7 @@
 
   ::set BLAS=APL
   dir
-  pushd pytorch-unit-tests
+  pushd ..
   dir
   pushd .github\scripts
   dir
