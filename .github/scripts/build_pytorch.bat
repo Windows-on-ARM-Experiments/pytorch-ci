@@ -5,7 +5,7 @@
   dir
   pushd .github\scripts
   dir
-  call get-APL.bat2
+  call get-APL.bat
   popd
   cd ..
   dir
