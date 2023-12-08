@@ -1,5 +1,5 @@
 @echo on
-set FILE_NAME=arm-performance-libraries_23.10_Windows
+set FILE_NAME=arm-performance-libraries_23.10
 set FILE_URL=https://armkeil.blob.core.windows.net/developer/Files/downloads/hpc/arm-performance-libraries/23-10/windows/arm-performance-libraries_23.10_Windows.zip
 set ZIP_FILE=arm-performance-libraries_23.10_Windows.zip
 set DEST_DIR=%JOB_DIR%
