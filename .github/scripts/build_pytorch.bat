@@ -2,6 +2,7 @@
 
 
   ::set BLAS=APL
+  dir /s /b "get-APL.bat"
   dir
   pushd ..
   dir
