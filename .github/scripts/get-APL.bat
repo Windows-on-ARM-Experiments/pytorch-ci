@@ -18,5 +18,6 @@ set DEST_DIR=%JOB_DIR%
 ::    echo File already exists. Skipping download and unzip.
 ::)
 dir %DEST_DIR%\%FILE_NAME%\armpl_23.10
-set PATH=%PATH%;%DEST_DIR%\%FILE_NAME%\armpl_23.10
+set ARMPL_DIR=%DEST_DIR%\%FILE_NAME%\armpl_23.10
+set PATH=%PATH%;%ARMPL_DIR%\bin
 echo Done.

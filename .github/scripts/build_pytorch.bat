@@ -45,6 +45,8 @@ set USE_QNNPACK=OFF
 set USE_ROCM=OFF
 set USE_TENSORPIPE=OFF
 set USE_XNNPACK=OFF
+set BUILD_PYTHON=False
+set CMAKE_GENERATOR=Ninja
 
 python setup.py install --cmake --home=%JOB_DIR%\pytorch\install
 python setup.py install
