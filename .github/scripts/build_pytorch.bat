@@ -8,6 +8,10 @@ if "%visualstudio%" == "" (
   goto :eof
 )
 
+if "%ENABLE_APL%" == "1" (
+  set PATH=%PATH%;%ARMPL_DIR%\bin
+)
+
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
 cd %JOB_DIR%\pytorch
@@ -20,10 +24,6 @@ echo %ENABLE_OPENBLAS%
 if "%ENABLE_OPENBLAS%" == "1" (
   set BLAS=OpenBLAS
   set OpenBLAS_HOME=%JOB_DIR%\openblas\install
-)
-
-if "%ENABLE_APL%" == "1" (
-  set PATH=%PATH%;%ARMPL_DIR%\bin
 )
 
 set USE_CUDA=OFF
