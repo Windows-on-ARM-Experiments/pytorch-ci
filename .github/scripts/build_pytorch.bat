@@ -11,8 +11,7 @@ if "%visualstudio%" == "" (
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
 if "%ENABLE_APL%" == "1" (
-  set BLAS=APL
-  call get-apl.bat
+  set PATH=%PATH%;%ARMPL_DIR%\bin
 )
 
 cd %JOB_DIR%\pytorch
