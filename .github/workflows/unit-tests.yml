@@ -48,7 +48,7 @@ env:
   JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
   ENABLE_OPENBLAS: ${{ inputs.blass_type == 1 || inputs.blass_type == 2 }}
-  ENABLE_APL : ${{ inputs.blass_type == 3}}
+  ENABLE_APL: ${{ inputs.blass_type == 3 && '1' || '0' }}
 
 jobs:
 
