@@ -5,7 +5,7 @@ set ZIP_FILE=arm-performance-libraries_23.10_Windows.zip
 set DEST_DIR=%JOB_DIR%
 
 :: Check if the ZIP file already exists in the destination directory
-::if not exist "%DEST_DIR%%ZIP_FILE%" (
+if not exist "%DEST_DIR%%ZIP_FILE%" (
     echo File not found. Downloading...
     curl -L -o "%ZIP_FILE%" "%FILE_URL%"
     dir
@@ -14,9 +14,9 @@ set DEST_DIR=%JOB_DIR%
     dir %DEST_DIR%
 	del %ZIP_FILE%
 	
-::) else (
-::    echo File already exists. Skipping download and unzip.
-::)
+) else (
+    echo File already exists. Skipping download and unzip.
+)
 dir %DEST_DIR%\%FILE_NAME%\armpl_23.10
 set ARMPL_DIR=%DEST_DIR%\%FILE_NAME%\armpl_23.10
 set PATH=%PATH%;%ARMPL_DIR%\bin

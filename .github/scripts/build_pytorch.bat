@@ -1,15 +1,5 @@
 @echo on
 
-
-if "%ENABLE_APL%" == "1" (
-  pushd pytorch-unit-tests\workflow\.github\scripts
-  call get-APL.bat
-  popd
-  if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-)
-  
-
-
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
 for /f "delims=" %%v in ('"%vswhere%" -latest -property installationPath') do set "visualstudio=%%v"
@@ -19,6 +9,11 @@ if "%visualstudio%" == "" (
 )
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
+
+if "%ENABLE_APL%" == "1" (
+  set BLAS=APL
+  call get-apl.bat
+)
 
 cd %JOB_DIR%\pytorch
 

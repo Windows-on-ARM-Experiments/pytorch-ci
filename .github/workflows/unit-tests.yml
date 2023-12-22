@@ -13,16 +13,11 @@ on:
         required: true
         default: "release-0.3.0"
         type: string
-      build_openblas_msvc:
-        description: "Build OpenBLAS with MSVC"
+      blass_type:
+        description: "0-Don't use blas.1-build OpenBLAS with MSVC. 2-build OpenBLAS with CLANG. 3-use APL"
         required: false
-        default: false
-        type: boolean
-      build_openblas_clang:
-        description: "Build OpenBLAS with Clang"
-        required: false
-        default: false
-        type: boolean
+        default: 0
+        type: number
       build_pytorch:
         description: "Build PyTorch"
         required: false
@@ -52,8 +47,8 @@ on:
 env:
   JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
-  ENABLE_OPENBLAS: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
-  ENABLE_APL : 1
+  ENABLE_OPENBLAS: ${{ inputs.blass_type == 1 || inputs.blass_type == 2 }}
+  ENABLE_APL : ${{ inputs.blass_type == 3}}
 
 jobs:
 
@@ -67,7 +62,7 @@ jobs:
         with:
           path: ${{ env.JOB_DIR }}/workflow
       - name: Git checkout OpenBLAS
-        if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
+        if: ${{ inputs.blass_type == 1 || inputs.blass_type == 2 }}
         uses: actions/checkout@v3
         with:
           repository: ${{ inputs.openblas_repository }}
@@ -83,9 +78,13 @@ jobs:
           path: ${{ env.JOB_DIR }}/pytorch
           submodules: recursive
       - name: Bootstrap OpenBLAS build
-        if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
+        if: ${{ inputs.blass_type == 1 || inputs.blass_type == 2 }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_openblas.bat
+      - name: Bootstrap APL binaries
+        if: ${{ inputs.blass_type == 3}}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_APL.bat
       - name: Bootstrap PyTorch build
         if: ${{ inputs.build_pytorch }}
         run: |
@@ -95,15 +94,15 @@ jobs:
         run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_tests.bat
       - name: Build OpenBLAS with MSVC
-        if: ${{ inputs.build_openblas_msvc }}
+        if: ${{ inputs.blass_type == 1}}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
       - name: Build OpenBLAS with Clang
-        if: ${{ inputs.build_openblas_clang }}
+        if: ${{ inputs.blass_type == 2}}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_openblas_clang.bat
       - name: Archive OpenBLAS
-        if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
+        if: ${{ inputs.blass_type == 1 || inputs.blass_type == 2 }}
         uses: actions/upload-artifact@v3
         with:
           name: openblas
