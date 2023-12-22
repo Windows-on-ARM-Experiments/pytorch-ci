@@ -18,5 +18,5 @@ if not exist "%DEST_DIR%%ZIP_FILE%" (
     echo File already exists. Skipping download and unzip.
 )
 dir %DEST_DIR%\%FILE_NAME%\armpl_23.10
-ECHO ARMPL_DIR=%DEST_DIR%\%FILE_NAME%\armpl_23.10 >> %GITHUB_ENV%
+ECHO ARMPL_DIR=%DEST_DIR%\%FILE_NAME%\armpl_23.10>> %GITHUB_ENV%
 echo Done.
