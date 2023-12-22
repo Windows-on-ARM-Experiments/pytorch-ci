@@ -1,9 +1,5 @@
 @echo on
 
-if "%ENABLE_APL%" == "1" (
-  set PATH=%PATH%;%ARMPL_DIR%\bin
-)
-echo %PATH%
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
 for /f "delims=" %%v in ('"%vswhere%" -latest -property installationPath') do set "visualstudio=%%v"
@@ -24,6 +20,10 @@ echo %ENABLE_OPENBLAS%
 if "%ENABLE_OPENBLAS%" == "1" (
   set BLAS=OpenBLAS
   set OpenBLAS_HOME=%JOB_DIR%\openblas\install
+)
+
+if "%ENABLE_APL%" == "1" (
+  set PATH=%PATH%;%ARMPL_DIR%\bin
 )
 
 set USE_CUDA=OFF
