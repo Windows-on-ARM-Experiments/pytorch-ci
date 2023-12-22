@@ -1,5 +1,9 @@
 @echo on
 
+if "%ENABLE_APL%" == "1" (
+  set PATH=%PATH%;%ARMPL_DIR%\bin
+)
+
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
 for /f "delims=" %%v in ('"%vswhere%" -latest -property installationPath') do set "visualstudio=%%v"
@@ -9,10 +13,6 @@ if "%visualstudio%" == "" (
 )
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
-
-if "%ENABLE_APL%" == "1" (
-  set PATH=%PATH%;%ARMPL_DIR%\bin
-)
 
 cd %JOB_DIR%\pytorch
 
