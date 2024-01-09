@@ -26,6 +26,9 @@ if "%ENABLE_OPENBLAS%" == "1" (
   set OpenBLAS_HOME=%JOB_DIR%\openblas\install
 )
 
+:: start sccache server and reset sccache stats
+sccache --zero-stats
+
 set USE_CUDA=OFF
 set USE_DISTRIBUTED=OFF
 set USE_FAKELOWP=OFF
@@ -41,6 +44,11 @@ set USE_TENSORPIPE=OFF
 set USE_XNNPACK=OFF
 set BUILD_PYTHON=False
 set CMAKE_GENERATOR=Ninja
-
+set CMAKE_C_COMPILER_LAUNCHER=sccache
+set CMAKE_CXX_COMPILER_LAUNCHER=sccache
+set CMAKE_CUDA_COMPILER_LAUNCHER=sccache
 python setup.py install --cmake --home=%JOB_DIR%\pytorch\install
 python setup.py install
+
+:: show sccache stats and stop sccache server
+sccache --stop-server
