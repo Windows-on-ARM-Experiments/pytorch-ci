@@ -27,6 +27,7 @@ if "%ENABLE_OPENBLAS%" == "1" (
 )
 
 :: start sccache server and reset sccache stats
+set PATH=%PATH%;C:\sccache
 sccache --zero-stats
 
 set USE_CUDA=OFF
