@@ -49,7 +49,9 @@ set CMAKE_C_COMPILER_LAUNCHER=sccache
 set CMAKE_CXX_COMPILER_LAUNCHER=sccache
 set CMAKE_CUDA_COMPILER_LAUNCHER=sccache
 python setup.py install --cmake --home=%JOB_DIR%\pytorch\install
-python setup.py install
 
 :: show sccache stats
 sccache --show-stats
+
+python setup.py install
+
