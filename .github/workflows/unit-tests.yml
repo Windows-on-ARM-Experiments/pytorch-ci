@@ -73,8 +73,8 @@ jobs:
         if: ${{ inputs.build_pytorch || inputs.run_tests }}
         uses: actions/checkout@v3
         with:
-          repository: "JaneaSystems/pytorch"
-          ref: "arm64_windows_2"
+          repository: "iremyux/pytorch"
+          ref: "/run-test-apl-results"
           path: ${{ env.JOB_DIR }}/pytorch
           submodules: recursive
       - name: Bootstrap OpenBLAS build
