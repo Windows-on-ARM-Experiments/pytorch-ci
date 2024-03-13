@@ -11,8 +11,14 @@ call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 mkdir %JOB_DIR%\openblas\build
 cd %JOB_DIR%\openblas\build
 
-set CMAKE_BUILD_TYPE=RelWithDebInfo
+if "%ENABLE_DEBUG%" == "1" (
+  set CMAKE_BUILD_TYPE=Debug
+  set CMAKE_CONFIG=Debug
+) else (
+  set CMAKE_BUILD_TYPE=RelWithDebInfo
+  set CMAKE_CONFIG=Release
+)
 
 cmake .. -G Ninja -DBUILD_TESTING=0
-cmake --build . --config Release
+cmake --build . --config %CMAKE_CONFIG%
 cmake --install . --prefix ../install

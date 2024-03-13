@@ -26,6 +26,12 @@ if "%ENABLE_OPENBLAS%" == "1" (
   set OpenBLAS_HOME=%JOB_DIR%\openblas\install
 )
 
+if "%ENABLE_DEBUG%" == "1" (
+  set DEBUG=ON
+) else (
+  set REL_WITH_DEB_INFO=ON
+)
+
 :: start sccache server and reset sccache stats
 set PATH=%PATH%;C:\sccache
 sccache --zero-stats
