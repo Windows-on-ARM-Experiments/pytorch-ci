@@ -30,6 +30,7 @@ if "%ENABLE_OPENBLAS%" == "1" (
 set PATH=%PATH%;C:\sccache
 sccache --zero-stats
 
+set USE_LAPACK=1
 set USE_CUDA=OFF
 set USE_DISTRIBUTED=OFF
 set USE_FAKELOWP=OFF
