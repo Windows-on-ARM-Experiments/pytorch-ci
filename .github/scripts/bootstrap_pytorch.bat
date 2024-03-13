@@ -1,6 +1,7 @@
 pip uninstall torch -y
 pip uninstall pytorch -y
 
+del %JOB_DIR%\pytorch\build /s /q /f
 del %JOB_DIR%\pytorch\install\* /s /q /f
 
 cd %JOB_DIR%\pytorch

@@ -1,5 +1,3 @@
-@echo on
-
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
 for /f "delims=" %%v in ('"%vswhere%" -latest -property installationPath') do set "visualstudio=%%v"
@@ -10,14 +8,14 @@ if "%visualstudio%" == "" (
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
+@echo on
+
 cd %JOB_DIR%\pytorch
 
 set REL_WITH_DEB_INFO=1
 set CMAKE_BUILD_TYPE=RelWithDebInfo
 
-echo %ENABLE_OPENBLAS%
-
-if "%ENABLE_OPENBLAS%" == "1" (
+if "%ENABLE_OPENBLAS%" == "true" (
   set BLAS=OpenBLAS
   set OpenBLAS_HOME=%JOB_DIR%\openblas\install
 )
