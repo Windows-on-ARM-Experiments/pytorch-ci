@@ -27,6 +27,11 @@ if "%ENABLE_OPENBLAS%" == "true" (
   set OpenBLAS_HOME=%JOB_DIR%\openblas\install
 )
 
+set BUILD_TEST=OFF
+set BUILD_BINARY=OFF
+set BUILD_DOCS=OFF
+set BUILD_PYTHON=OFF
+
 set USE_CUDA=OFF
 set USE_DISTRIBUTED=OFF
 set USE_FAKELOWP=OFF
@@ -43,5 +48,4 @@ set USE_XNNPACK=OFF
 
 set CMAKE_VERBOSE_MAKEFILE:BOOL=ON
 
-python setup.py install --cmake --home=%JOB_DIR%\pytorch\install
-python setup.py install
+python tools\build_libtorch.py 

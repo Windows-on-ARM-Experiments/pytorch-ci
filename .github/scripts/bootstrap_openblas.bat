@@ -1,4 +1,6 @@
-echo %JOB_DIR% 
-
-del %JOB_DIR%\openblas\build /s /q /f
-del %JOB_DIR%\openblas\install /s /q /f
+if exist [%JOB_DIR%\openblas\build] (
+  rmdir /S /q %JOB_DIR%\openblas\build
+)
+if exist [%JOB_DIR%\openblas\install] (
+  rmdir /S /q %JOB_DIR%\openblas\install
+)
