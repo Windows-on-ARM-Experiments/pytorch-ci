@@ -84,7 +84,7 @@ jobs:
       - name: Bootstrap APL binaries
         if: ${{ inputs.blass_type == 3}}
         run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_APL.bat
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_APL_24.04.bat
       - name: Bootstrap PyTorch build
         if: ${{ inputs.build_pytorch }}
         run: |
