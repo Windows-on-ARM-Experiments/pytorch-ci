@@ -29,12 +29,12 @@ defaults:
     shell: cmd
 
 env:
-  JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
-  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
-  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-unit-tests\pytorch
-  PYTORCH_BUILD_DIR:  ${{ github.workspace }}\pytorch-unit-tests\pytorch\build
-  OPENBLAS_SOURCES_DIR:  ${{ github.workspace }}\pytorch-unit-tests\openblas
-  OPENBLAS_BUILD_DIR:  ${{ github.workspace }}\pytorch-unit-tests\openblas\build
+  JOB_DIR: ${{ github.workspace }}\pytorch-job
+  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\pytorch
+  PYTORCH_BUILD_DIR:  ${{ github.workspace }}\pytorch-job\pytorch\build
+  OPENBLAS_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\openblas
+  OPENBLAS_BUILD_DIR:  ${{ github.workspace }}\pytorch-job\openblas\build
 
 jobs:
   wipe:
