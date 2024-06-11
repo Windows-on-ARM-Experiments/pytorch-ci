@@ -13,7 +13,7 @@ set CMAKE_C_COMPILER_LAUNCHER=sccache
 set CMAKE_CXX_COMPILER_LAUNCHER=sccache
 
 :: change to source directory
-cd pytorch
+cd %PYTORCH_SOURCES_DIR%
 
 :: submodule sync
 git submodule sync
