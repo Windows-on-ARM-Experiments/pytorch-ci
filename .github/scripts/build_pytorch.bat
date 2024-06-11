@@ -18,10 +18,6 @@ set PATH=C:\_WORK\dependencies\apl\armpl_24.04\bin;%PATH%
 
 :: change to source directory
 cd %PYTORCH_SOURCES_DIR%
-
-:: submodule sync
-git submodule sync
-git submodule update --init --recursive
  
 :: create virtual environment
 python -m venv venv
