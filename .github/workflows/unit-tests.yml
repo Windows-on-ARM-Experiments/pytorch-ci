@@ -52,7 +52,7 @@ env:
   JOB_DIR: ${{ github.workspace }}\pytorch-job
   DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
   DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
-  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\wheel
+  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\pytorch\dist
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
   PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\pytorch
   ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
@@ -84,6 +84,13 @@ jobs:
         if: ${{ inputs.build_pytorch }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+      - name: Archive PyTorch
+        if: ${{ inputs.build_pytorch }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytorch
+          path: ${{ env.WHEEL_DIR }}/*
+          retention-days: 3
       # TEMPORARILY DISABLED
       # - name: Git checkout OpenBLAS
       #   if: ${{ env.ENABLE_OPENBLAS }}
@@ -100,13 +107,6 @@ jobs:
       #   if: ${{ env.ENABLE_APL }}
       #   run: |
       #     & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
-      # - name: Archive PyTorch
-      #   if: ${{ inputs.build_pytorch }}
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: pytorch
-      #     path: ${{ env.JOB_DIR }}/pytorch/install/*
-      #     retention-days: 3
       # - name: Bootstrap OpenBLAS build
       #   if: ${{ env.ENABLE_OPENBLAS }}
       #   run: |

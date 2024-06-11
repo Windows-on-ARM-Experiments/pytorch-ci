@@ -45,4 +45,3 @@ call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64 -vcvars_ver=14.40
 sccache --show-stats
 
 python setup.py bdist_wheel
-
