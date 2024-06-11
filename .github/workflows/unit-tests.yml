@@ -52,11 +52,12 @@ env:
   JOB_DIR: ${{ github.workspace }}\pytorch-job
   DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
   DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
-  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\pytorch\dist
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
   PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\pytorch
   ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
   ENABLE_OPENBLAS: ${{ (inputs.blass_type == 'openblas_msvc' || inputs.blass_type == 'openblas_clang') && '1' || '0' }}
+  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\pytorch\dist
+  WHEEL_NAME: torch-cp311-win_arm64.whl
 
 jobs:
 
@@ -76,22 +77,45 @@ jobs:
           ref: "apl-tests"
           path: ${{ env.PYTORCH_SOURCES_DIR }}
           submodules: recursive
-      - name: Clean PyTorch
-        if: ${{ inputs.build_pytorch }}
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
+      # - name: Clean PyTorch
+      #   if: ${{ inputs.build_pytorch }}
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
       - name: Build PyTorch
         if: ${{ inputs.build_pytorch }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-      - name: Archive PyTorch
-        if: ${{ inputs.build_pytorch }}
-        uses: actions/upload-artifact@v3
+      - name: Get Release Version
+        run: echo "RELEASE_VERSION=v0.0.$(Get-Date -Format 'yyMMddHHmm')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: pytorch
-          path: ${{ env.WHEEL_DIR }}/*
-          retention-days: 3
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
+          body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
+          asset_name: ${{ env.WHEEL_NAME }}
+          asset_content_type: application/zip
       # TEMPORARILY DISABLED
+      # - name: Archive PyTorch
+      #   if: ${{ inputs.build_pytorch }}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pytorch
+      #     path: ${{ env.WHEEL_DIR }}/*
+      #     retention-days: 3
       # - name: Git checkout OpenBLAS
       #   if: ${{ env.ENABLE_OPENBLAS }}
       #   uses: actions/checkout@v3
