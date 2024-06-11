@@ -1,5 +1,9 @@
 @echo on
 
+if "%ENABLE_APL%" == "1" (
+  set PATH=%PATH%;%ARMPL_DIR%\bin
+)
+
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
 for /f "delims=" %%v in ('"%vswhere%" -latest -property installationPath') do set "visualstudio=%%v"
@@ -35,6 +39,8 @@ set USE_QNNPACK=OFF
 set USE_ROCM=OFF
 set USE_TENSORPIPE=OFF
 set USE_XNNPACK=OFF
+set BUILD_PYTHON=False
+set CMAKE_GENERATOR=Ninja
 
 python setup.py install --cmake --home=%JOB_DIR%\pytorch\install
 python setup.py install
