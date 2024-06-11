@@ -54,6 +54,7 @@ env:
   DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
   WHEEL_DIR: ${{ github.workspace }}\pytorch-job\wheel
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\pytorch
   ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
   ENABLE_OPENBLAS: ${{ (inputs.blass_type == 'openblas_msvc' || inputs.blass_type == 'openblas_clang') && '1' || '0' }}
 
@@ -76,13 +77,15 @@ jobs:
           ref: ${{ inputs.openblas_branch }}
           path: ${{ env.JOB_DIR }}/openblas
           submodules: recursive
+      - name: Clean PyTorch sources        
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\wipe_pytorch_sources.bat
       - name: Git checkout PyTorch
-        if: ${{ inputs.build_pytorch || inputs.run_tests }}
         uses: actions/checkout@v3
         with:
           repository: "iremyux/pytorch"
           ref: "apl-tests"
-          path: ${{ env.JOB_DIR }}/pytorch
+          path: ${{ env.PYTORCH_SOURCES_DIR }}
           submodules: recursive
       - name: Bootstrap sccache binaries
         run: |
@@ -91,7 +94,18 @@ jobs:
         if: ${{ env.ENABLE_APL }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
-      # TEMPORARILY DISABLED FOR TESTING
+      - name: Build PyTorch
+        if: ${{ inputs.build_pytorch }}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+      # TEMPORARILY DISABLED
+      # - name: Archive PyTorch
+      #   if: ${{ inputs.build_pytorch }}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: pytorch
+      #     path: ${{ env.JOB_DIR }}/pytorch/install/*
+      #     retention-days: 3
       # - name: Bootstrap OpenBLAS build
       #   if: ${{ env.ENABLE_OPENBLAS }}
       #   run: |
@@ -114,17 +128,6 @@ jobs:
       #   with:
       #     name: openblas
       #     path: ${{ env.JOB_DIR }}/openblas/install/*
-      #     retention-days: 3
-      # - name: Build PyTorch
-      #   if: ${{ inputs.build_pytorch }}
-      #   run: |
-      #     & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-      # - name: Archive PyTorch
-      #   if: ${{ inputs.build_pytorch }}
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: pytorch
-      #     path: ${{ env.JOB_DIR }}/pytorch/install/*
       #     retention-days: 3
       # - name: Run tests
       #   if: ${{ inputs.run_tests }}
