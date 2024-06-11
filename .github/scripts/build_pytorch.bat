@@ -1,4 +1,4 @@
-@echo on
+@echo off
 :: start sccache server and reset sccache stats
 sccache --zero-stats
 
