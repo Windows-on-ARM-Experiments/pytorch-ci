@@ -20,6 +20,7 @@ set PATH=C:\_WORK\dependencies\apl\armpl_24.04\bin;%PATH%
 cd %PYTORCH_SOURCES_DIR%
  
 :: create virtual environment
+where python
 python -m venv venv
 echo * > venv\.gitignore
 call .\venv\Scripts\activate
@@ -38,7 +39,7 @@ if "%visualstudio%" == "" (
 )
 
 :: TODO: vcvars_ver is optional but currently it is being tested with 14.36 and 14.40
-cmd /k "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64 -vcvars_ver=14.40
+call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64 -vcvars_ver=14.40
 
 :: show sccache stats
 sccache --show-stats

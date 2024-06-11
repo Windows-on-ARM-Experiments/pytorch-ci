@@ -76,6 +76,10 @@ jobs:
           ref: "apl-tests"
           path: ${{ env.PYTORCH_SOURCES_DIR }}
           submodules: recursive
+      - name: Clean PyTorch
+        if: ${{ inputs.build_pytorch }}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
       - name: Build PyTorch
         if: ${{ inputs.build_pytorch }}
         run: |
