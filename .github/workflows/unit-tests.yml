@@ -69,15 +69,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: ${{ env.JOB_DIR }}/workflow
-      - name: Git checkout OpenBLAS
-        if: ${{ env.ENABLE_OPENBLAS }}
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ inputs.openblas_repository }}
-          ref: ${{ inputs.openblas_branch }}
-          path: ${{ env.JOB_DIR }}/openblas
-          submodules: recursive
-      - name: Clean PyTorch sources        
+      - name: Clean PyTorch sources
         run: |
           & ${{ env.SCRIPTS_DIR }}\wipe_pytorch_sources.bat
       - name: Git checkout PyTorch
@@ -87,18 +79,26 @@ jobs:
           ref: "apl-tests"
           path: ${{ env.PYTORCH_SOURCES_DIR }}
           submodules: recursive
-      - name: Bootstrap sccache binaries
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_sccache.bat
-      - name: Bootstrap APL binaries
-        if: ${{ env.ENABLE_APL }}
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
       - name: Build PyTorch
         if: ${{ inputs.build_pytorch }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
       # TEMPORARILY DISABLED
+      # - name: Git checkout OpenBLAS
+      #   if: ${{ env.ENABLE_OPENBLAS }}
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: ${{ inputs.openblas_repository }}
+      #     ref: ${{ inputs.openblas_branch }}
+      #     path: ${{ env.JOB_DIR }}/openblas
+      #     submodules: recursive
+      # - name: Bootstrap sccache binaries
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_sccache.bat
+      # - name: Bootstrap APL binaries
+      #   if: ${{ env.ENABLE_APL }}
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
       # - name: Archive PyTorch
       #   if: ${{ inputs.build_pytorch }}
       #   uses: actions/upload-artifact@v3
