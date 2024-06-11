@@ -10,7 +10,7 @@ set TARGET_FILE=sccache.exe
 
 :: Check if the file already exists in the destination directory
 :: TODO: smarter check mechanism can be used (e.g. call with error level)
-if not exist "%DEPENDENCIES_DIR%%TARGET_DIR%%TARGET_FILE%" (
+if not exist "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" (
     echo Downloading sccache.zip...
     curl -L -o "%DOWNLOADS_DIR%\sccache.zip" %DOWNLOAD_URL%
 
@@ -25,7 +25,7 @@ if not exist "%DEPENDENCIES_DIR%%TARGET_DIR%%TARGET_FILE%" (
     echo Skipped download and install: sccache
 )
 
-echo "%DEPENDENCIES_DIR%%TARGET_DIR%" >> $GITHUB_PATH
+echo "%DEPENDENCIES_DIR%\%TARGET_DIR%" >> %GITHUB_PATH%
 echo SCCACHE_CACHE_SIZE=30G >> %GITHUB_ENV%
 
 echo Dependency sccache installation is finished.

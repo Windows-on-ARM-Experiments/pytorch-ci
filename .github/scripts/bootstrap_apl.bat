@@ -11,7 +11,7 @@ set TARGET_FILE=armpl-info.exe
 
 :: Check if the file already exists in the destination directory
 :: TODO: smarter check mechanism can be used (e.g. call with error level)
-if not exist "%DEPENDENCIES_DIR%%TARGET_DIR%%TARGET_FILE%" (
+if not exist "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" (
     echo Downloading arm-performance-libraries_24.04_Windows.msi...
     curl -L -o "%DOWNLOADS_DIR%\arm-performance-libraries_24.04_Windows.msi" %DOWNLOAD_URL%
 
@@ -23,7 +23,7 @@ if not exist "%DEPENDENCIES_DIR%%TARGET_DIR%%TARGET_FILE%" (
     echo Skipped download and install: APL
 )
 
-echo "%DEPENDENCIES_DIR%%TARGET_DIR%" >> $GITHUB_PATH
+echo "%DEPENDENCIES_DIR%\%TARGET_DIR%" >> %GITHUB_PATH%
 echo ARMPL_DIR=%INSTALL_DIR%\armpl_24.04 >> %GITHUB_ENV%
 
 echo Dependency APL installation is finished.
