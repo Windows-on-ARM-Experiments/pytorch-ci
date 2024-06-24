@@ -1,3 +1,5 @@
+:: For now, sccache is considered as already installed (script is not in use)
+
 @echo off
 echo Dependency sccache installation is started.
 :: Pre check for downloads and dependencies folders

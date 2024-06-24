@@ -1,3 +1,5 @@
+:: For now, APL is considered as already installed (script is not in use)
+
 @echo off
 echo Dependency APL installation is started.
 :: Pre check for downloads and dependencies folders

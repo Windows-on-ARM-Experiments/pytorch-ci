@@ -1,4 +1,4 @@
-del %JOB_DIR%\pytorch\test\test-reports\* /s /q /f
+del %PYTORCH_SOURCES_DIR%\test\test-reports\* /s /q /f
 
 set CI=true
 

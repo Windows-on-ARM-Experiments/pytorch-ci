@@ -20,14 +20,13 @@ set PATH=C:\_WORK\dependencies\apl\armpl_24.04\bin;%PATH%
 cd %PYTORCH_SOURCES_DIR%
  
 :: create virtual environment
-where python
 python -m venv venv
 echo * > venv\.gitignore
 call .\venv\Scripts\activate
+where python
 
 :: python install dependencies
 pip install -r requirements.txt
-pip install pytest==8.1.1 pytest-xdist==3.5.0 pytest-shard pytest-rerunfailures==13.0 pytest-flakefinder pytest-pytorch expecttest hypothesis xdoctest
  
 :: activate visual studio
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
@@ -46,7 +45,7 @@ sccache --show-stats
 
 if defined ENABLE_BUILD_WHEEL (
   echo ENABLE_BUILD_WHEEL is set, wheel is generating...
-  
+
   python setup.py bdist_wheel
 
   :: rename wheel file
