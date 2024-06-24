@@ -54,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: Daily Release ${{ env.RELEASE_VERSION }}
+          release_name: Daily Release - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
           draft: false
           prerelease: false
