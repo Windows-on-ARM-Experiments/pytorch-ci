@@ -13,8 +13,8 @@ set CMAKE_C_COMPILER_LAUNCHER=sccache
 set CMAKE_CXX_COMPILER_LAUNCHER=sccache
 
 :: TODO: Dependencies
-set PATH=C:\_WORK\dependencies\sccache;%PATH%
-set PATH=C:\_WORK\dependencies\apl\armpl_24.04\bin;%PATH%
+set PATH=%DEPENDENCY_SCCACHE_DIR%;%PATH%
+set PATH=%DEPENDENCY_APL_DIR%;%PATH%
 
 :: change to source directory
 cd %PYTORCH_SOURCES_DIR%
