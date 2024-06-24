@@ -26,6 +26,7 @@ call .\venv\Scripts\activate
 where python
 
 :: python install dependencies
+python -m pip install --upgrade pip
 pip install -r requirements.txt
  
 :: activate visual studio
