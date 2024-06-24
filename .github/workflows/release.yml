@@ -3,27 +3,87 @@
 name: Release
 
 # Controls when the workflow will run
+# OpenBLAS is disabled for now
 on:
   workflow_dispatch:
     inputs:
-      run_tests:
-        description: "Dummy value"
-        required: false
-        default: false
-        type: boolean
+      blass_type:
+        description: "Choose BLAS type (for now only APL)"
+        required: true
+        default: 'apl'
+        type: choice
+        options:
+          - apl
+      pytorch_repository:
+        description: "PyTorch repository"
+        required: true
+        default: "iremyux/pytorch"
+        type: string
+      pytorch_branch:
+        description: "PyTorch branch"
+        required: true
+        default: "apl-tests"
+        type: string
+      wheel_name:
+        description: "Release wheel name (should be compatible with wheel syntax)"
+        required: true
+        default: "torch-2.4.0a-cp311-cp311-win_arm64.whl"
+        type: string
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  JOB_DIR: ${{ github.workspace }}\pytorch-job
+  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
+  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
+  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}
+  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}\dist
+  ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  build_and_test:
+    name: Create Release
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    timeout-minutes: 800
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Get Release Version
+        run: echo "RELEASE_VERSION=v0.0.$(Get-Date -Format 'yyMMddHHmm')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Git checkout workflow
+        uses: actions/checkout@v3
+        with:
+          path: ${{ env.JOB_DIR }}/workflow
+      - name: Git checkout PyTorch
+        uses: actions/checkout@v3
+        with:
+          repository:  ${{ inputs.pytorch_repository }}
+          ref: "apl-tests"
+          path: ${{ env.PYTORCH_SOURCES_DIR }}
+          submodules: recursive
+      - name: Clean PyTorch
+        if: ${{ inputs.build_pytorch }}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
+      - name: Build PyTorch
+        if: ${{ inputs.build_pytorch }}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
+          body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
+          asset_name: ${{ env.WHEEL_NAME }}
+          asset_content_type: application/zip
