@@ -44,9 +44,17 @@ call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64 -vcvars_ver=14.40
 :: show sccache stats
 sccache --show-stats
 
-python setup.py bdist_wheel
+if defined ENABLE_BUILD_WHEEL (
+  echo ENABLE_BUILD_WHEEL is set, wheel is generating...
+  
+  python setup.py bdist_wheel
 
-:: rename wheel file
-cd %WHEEL_DIR%
-ren "torc*" %WHEEL_NAME%
-cd ..
+  :: rename wheel file
+  cd %WHEEL_DIR%
+  ren "torc*" %WHEEL_NAME%
+  cd ..
+) else (
+  echo ENABLE_BUILD_WHEEL is not set, install command will be executed...
+
+  python setup.py install
+)
