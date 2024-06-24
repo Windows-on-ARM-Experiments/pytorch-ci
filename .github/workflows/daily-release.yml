@@ -1,0 +1,70 @@
+name: Release
+
+# Controls when the workflow will run
+# OpenBLAS is disabled for now
+# Schedule doesn't accept inputs. So, this has hardcoded values for repository / branch
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+env:
+  PYTORCH_REPOSITORY: iremyux\pytorch
+  PYTORCH_BRANCH: apl-tests
+  JOB_DIR: ${{ github.workspace }}\pytorch-job
+  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
+  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
+  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\iremyux\pytorch\apl-tests
+  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\src\iremyux\pytorch\apl-tests\dist
+  WHEEL_NAME: torch-2.4.0a-cp311-cp311-win_arm64.whl
+  ENABLE_BUILD_WHEEL: 1
+  ENABLE_APL: 'apl'
+  DEPENDENCY_SCCACHE_DIR: C:\_WORK\dependencies\sccache
+  DEPENDENCY_APL_DIR: C:\_WORK\dependencies\apl\armpl_24.04\bin
+
+jobs:
+  build_and_test:
+    name: Create Release
+    runs-on: [self-hosted, Windows, ARM64, PYTORCH]
+    timeout-minutes: 800
+    steps:
+      - name: Get Release Version
+        run: echo "RELEASE_VERSION=v0.0.$(Get-Date -Format 'yyMMddHHmm')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Git checkout workflow
+        uses: actions/checkout@v3
+        with:
+          path: ${{ env.JOB_DIR }}/workflow
+      - name: Git checkout PyTorch
+        uses: actions/checkout@v3
+        with:
+          repository:  ${{ env.PYTORCH_REPOSITORY }}
+          ref: ${{ env.PYTORCH_BRANCH }}
+          path: ${{ env.PYTORCH_SOURCES_DIR }}
+          submodules: recursive
+      - name: Clean PyTorch
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
+      - name: Build PyTorch
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Daily Release ${{ env.RELEASE_VERSION }}
+          body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
+          asset_name: ${{ env.WHEEL_NAME }}
+          asset_content_type: application/zip
