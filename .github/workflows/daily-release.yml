@@ -7,6 +7,14 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
+  # just for testing.
+  workflow_dispatch:
+    inputs:
+      wheel_name:
+        description: "Release wheel name (should be compatible with wheel syntax)"
+        required: true
+        default: "torch-2.4.0a-cp311-cp311-win_arm64.whl"
+        type: string
 env:
   BLASS_TYPE: 'apl'
   PYTORCH_REPOSITORY: iremyux\pytorch
