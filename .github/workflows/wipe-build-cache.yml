@@ -1,51 +1,99 @@
-name: Wipe runner caches
+# name: Wipe runner caches
 
-on: 
+# on: 
+#   workflow_dispatch:
+#     inputs:
+#       # is_openblas_sources:
+#       #   description: "Enable wipe OpenBLAS sources?"
+#       #   required: false
+#       #   default: false
+#       #   type: boolean
+#       # is_openblas_build:
+#       #   description: "Enable wipe OpenBLAS build?"
+#       #   required: false
+#       #   default: false
+#       #   type: boolean
+#       is_pytorch_sources:
+#         description: "Enable wipe PyTorch sources?"
+#         required: false
+#         default: false
+#         type: boolean
+
+# defaults:
+#   run:
+#     shell: cmd
+
+# env:
+#   JOB_DIR: ${{ github.workspace }}\pytorch-job
+#   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+#   PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src
+#   # OPENBLAS_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\openblas
+#   # OPENBLAS_BUILD_DIR:  ${{ github.workspace }}\pytorch-job\openblas\build
+
+# jobs:
+#   wipe:
+#     name: Wipe runner caches
+#     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
+#     timeout-minutes: 600
+#     steps:
+#       - name: Git checkout workflow
+#         uses: actions/checkout@v4
+#         with:
+#           path: ${{ env.JOB_DIR }}\workflow
+#       - name: Wipe OpenBLAS sources
+#         if: ${{ inputs.is_openblas_sources }}
+#         run: ${{ env.SCRIPTS_DIR }}\wipe_openblas_sources.bat
+#       - name: Wipe OpenBLAS build
+#         if: ${{ inputs.is_openblas_build }}
+#         run: ${{ env.SCRIPTS_DIR }}\wipe_openblas_build.bat
+#       - name: Wipe PyTorch sources
+#         if: ${{ inputs.is_pytorch_sources }}
+#         run: ${{ env.SCRIPTS_DIR }}\wipe_pytorch_sources.bat
+
+# temporary test
+name: DummyReleaseTest
+
+# Controls when the workflow will run
+# OpenBLAS is disabled for now
+# Schedule doesn't accept inputs. So, this has hardcoded values for repository / branch
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
   workflow_dispatch:
     inputs:
-      # is_openblas_sources:
-      #   description: "Enable wipe OpenBLAS sources?"
-      #   required: false
-      #   default: false
-      #   type: boolean
-      # is_openblas_build:
-      #   description: "Enable wipe OpenBLAS build?"
-      #   required: false
-      #   default: false
-      #   type: boolean
-      is_pytorch_sources:
-        description: "Enable wipe PyTorch sources?"
-        required: false
-        default: false
-        type: boolean
-
-defaults:
-  run:
-    shell: cmd
+      blass_type:
+        description: "Choose BLAS type (for now only APL)"
+        required: true
+        default: 'apl'
+        type: choice
+        options:
+          - apl
 
 env:
+  BLASS_TYPE: 'apl'
+  PYTORCH_REPOSITORY: iremyux\pytorch
+  PYTORCH_BRANCH: apl-tests
   JOB_DIR: ${{ github.workspace }}\pytorch-job
+  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
+  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
-  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src
-  # OPENBLAS_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\openblas
-  # OPENBLAS_BUILD_DIR:  ${{ github.workspace }}\pytorch-job\openblas\build
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\iremyux\pytorch\apl-tests
+  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\src\iremyux\pytorch\apl-tests\dist
+  WHEEL_NAME: torch-2.4.0a-cp311-cp311-win_arm64.whl
+  ENABLE_BUILD_WHEEL: 1
+  DEPENDENCY_SCCACHE_DIR: C:\_WORK\dependencies\sccache
+  DEPENDENCY_APL_DIR: C:\_WORK\dependencies\apl\armpl_24.04\bin
+  RELEASE_PREFIX: Daily Release
 
 jobs:
-  wipe:
-    name: Wipe runner caches
+  create_release:
+    name: Create Release
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
-    timeout-minutes: 600
-    steps:
-      - name: Git checkout workflow
-        uses: actions/checkout@v4
-        with:
-          path: ${{ env.JOB_DIR }}\workflow
-      - name: Wipe OpenBLAS sources
-        if: ${{ inputs.is_openblas_sources }}
-        run: ${{ env.SCRIPTS_DIR }}\wipe_openblas_sources.bat
-      - name: Wipe OpenBLAS build
-        if: ${{ inputs.is_openblas_build }}
-        run: ${{ env.SCRIPTS_DIR }}\wipe_openblas_build.bat
-      - name: Wipe PyTorch sources
-        if: ${{ inputs.is_pytorch_sources }}
-        run: ${{ env.SCRIPTS_DIR }}\wipe_pytorch_sources.bat
+    timeout-minutes: 800
+    uses: ./.github/workflows/release.yml
+    with:
+      blass_type: ${{ env.BLASS_TYPE }}
+      pytorch_repository: ${{ env.PYTORCH_REPOSITORY }}
+      pytorch_branch: ${{ env.PYTORCH_BRANCH }}
+      wheel_name: ${{ env.WHEEL_NAME }}
