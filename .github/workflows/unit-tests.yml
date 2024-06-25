@@ -1,35 +1,56 @@
 name: Build and run tests
 
+# 1. OpenBLAS is disabled for now
+# 2. APL and sccache bootstrap is pre-installed. bootstrap scripts can be used for portability.
 on:
   workflow_dispatch:
     inputs:
-      openblas_repository:
-        description: "OpenBLAS repository"
+      # openblas_repository:
+      #   description: "OpenBLAS repository"
+      #   required: true
+      #   default: "OpenMathLib/OpenBLAS"
+      #   type: string
+      # openblas_branch:
+      #   description: "OpenBLAS branch"
+      #   required: true
+      #   default: "release-0.3.0"
+      #   type: string
+      blass_type:
+        description: "Choose BLAS type"
         required: true
-        default: "xianyi/OpenBLAS"
-        type: string
-      openblas_branch:
-        description: "OpenBLAS branch"
+        default: 'apl'
+        type: choice
+        options:
+          - apl
+          # - openblas_msvc
+          # - openblas_clang
+      pytorch_repository:
+        description: "PyTorch repository"
         required: true
-        default: "release-0.3.0"
+        default: "iremyux/pytorch"
         type: string
-      build_openblas_msvc:
-        description: "Build OpenBLAS with MSVC"
+      pytorch_branch:
+        description: "PyTorch branch"
+        required: true
+        default: "apl-tests"
+        type: string
+      is_build_pytorch:
+        description: "Enable PyTorch build?"
         required: false
         default: false
         type: boolean
-      build_openblas_clang:
-        description: "Build OpenBLAS with Clang"
+      is_clean_pytorch:
+        description: "Enable PyTorch clean?"
         required: false
         default: false
         type: boolean
-      build_pytorch:
-        description: "Build PyTorch"
+      is_archive_pytorch:
+        description: "Enable PyTorch archive build output?"
         required: false
         default: false
         type: boolean
-      run_tests:
-        description: "Run tests"
+      is_run_tests:
+        description: "Enable PyTorch tests run?"
         required: false
         default: false
         type: boolean
@@ -50,9 +71,13 @@ on:
         type: number
 
 env:
-  JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
-  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
-  ENABLE_OPENBLAS: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
+  JOB_DIR: ${{ github.workspace }}\pytorch-job
+  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
+  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
+  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}
+  ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
+  # ENABLE_OPENBLAS: ${{ (inputs.blass_type == 'openblas_msvc' || inputs.blass_type == 'openblas_clang') && '1' || '0' }}
 
 jobs:
 
@@ -62,71 +87,78 @@ jobs:
     timeout-minutes: 800
     steps:
       - name: Git checkout workflow
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.JOB_DIR }}/workflow
-      - name: Git checkout OpenBLAS
-        if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ inputs.openblas_repository }}
-          ref: ${{ inputs.openblas_branch }}
-          path: ${{ env.JOB_DIR }}/openblas
-          submodules: recursive
       - name: Git checkout PyTorch
-        if: ${{ inputs.build_pytorch || inputs.run_tests }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          repository: "Blackhex/pytorch"
-          ref: "main"
-          path: ${{ env.JOB_DIR }}/pytorch
+          repository:  ${{ inputs.pytorch_repository }}
+          ref: ${{ inputs.pytorch_branch }}
+          path: ${{ env.PYTORCH_SOURCES_DIR }}
           submodules: recursive
-      - name: Bootstrap OpenBLAS build
-        if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_openblas.bat
-      - name: Bootstrap PyTorch build
-        if: ${{ inputs.build_pytorch }}
+      - name: Clean PyTorch
+        if: ${{ inputs.is_clean_pytorch }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
-      - name: Bootstrap PyTorch tests
-        if: ${{ inputs.run_tests }}
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_tests.bat
-      - name: Build OpenBLAS with MSVC
-        if: ${{ inputs.build_openblas_msvc }}
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
-      - name: Build OpenBLAS with Clang
-        if: ${{ inputs.build_openblas_clang }}
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\build_openblas_clang.bat
-      - name: Archive OpenBLAS
-        if: ${{ inputs.build_openblas_msvc || inputs.build_openblas_clang }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: openblas
-          path: ${{ env.JOB_DIR }}/openblas/install/*
-          retention-days: 3
       - name: Build PyTorch
-        if: ${{ inputs.build_pytorch }}
+        if: ${{ inputs.is_build_pytorch }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
       - name: Archive PyTorch
-        if: ${{ inputs.build_pytorch }}
+        if: ${{ inputs.is_archive_pytorch }}
         uses: actions/upload-artifact@v3
         with:
           name: pytorch
-          path: ${{ env.JOB_DIR }}/pytorch/install/*
-          retention-days: 3
+          path: ${{ env.PYTORCH_SOURCES_DIR }}/build/lib.win-arm64-cpython-311/torch/*
+          retention-days: 1
+      - name: Bootstrap PyTorch tests
+        if: ${{ inputs.is_run_tests }}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_tests.bat
       - name: Run tests
-        if: ${{ inputs.run_tests }}
+        if: ${{ inputs.is_run_tests }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\test.bat ${{ inputs.run_tests_runs}} ${{ inputs.run_tests_suite }} ${{ inputs.run_tests_filter }}
-      - name: Archive test resutls
-        if: ${{ always() && inputs.run_tests }}
+      - name: Archive test results
+        if: ${{ always() && inputs.is_run_tests }}
         uses: actions/upload-artifact@v3
         with:
           name: test-reports
           path: ${{ env.JOB_DIR }}/pytorch/test/test-reports/*
           retention-days: 7
+      # TEMPORARILY DISABLED FOR FUTURE WORK
+      # - name: Git checkout OpenBLAS
+      #   if: ${{ env.ENABLE_OPENBLAS }}
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: ${{ inputs.openblas_repository }}
+      #     ref: ${{ inputs.openblas_branch }}
+      #     path: ${{ env.JOB_DIR }}/openblas
+      #     submodules: recursive
+      # - name: Bootstrap sccache binaries
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_sccache.bat
+      # - name: Bootstrap APL binaries
+      #   if: ${{ env.ENABLE_APL }}
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
+      # - name: Bootstrap OpenBLAS build
+      #   if: ${{ env.ENABLE_OPENBLAS }}
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_openblas.bat
+      # - name: Build OpenBLAS with MSVC
+      #   if: ${{ inputs.blass_type == 'openblas_msvc'}}
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
+      # - name: Build OpenBLAS with Clang
+      #   if: ${{ inputs.blass_type == 'openblas_clang'}}
+      #   run: |
+      #     & ${{ env.SCRIPTS_DIR }}\build_openblas_clang.bat
+      # - name: Archive OpenBLAS
+      #   if: ${{ env.ENABLE_OPENBLAS }}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: openblas
+      #     path: ${{ env.JOB_DIR }}/openblas/install/*
+      #     retention-days: 3

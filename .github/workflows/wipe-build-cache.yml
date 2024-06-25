@@ -3,23 +3,18 @@ name: Wipe runner caches
 on: 
   workflow_dispatch:
     inputs:
-      openblas_sources:
-        description: "OpenBLAS sources"
-        required: false
-        default: false
-        type: boolean
-      openblas_build:
-        description: "OpenBLAS build"
-        required: false
-        default: false
-        type: boolean
-      pytorch_sources:
-        description: "PyTorch sources"
-        required: false
-        default: false
-        type: boolean
-      pytorch_build:
-        description: "PyTorch build"
+      # is_openblas_sources:
+      #   description: "Enable wipe OpenBLAS sources?"
+      #   required: false
+      #   default: false
+      #   type: boolean
+      # is_openblas_build:
+      #   description: "Enable wipe OpenBLAS build?"
+      #   required: false
+      #   default: false
+      #   type: boolean
+      is_pytorch_sources:
+        description: "Enable wipe PyTorch sources?"
         required: false
         default: false
         type: boolean
@@ -29,12 +24,11 @@ defaults:
     shell: cmd
 
 env:
-  JOB_DIR: ${{ github.workspace }}\pytorch-unit-tests
-  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-unit-tests\workflow\.github\scripts
-  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-unit-tests\pytorch
-  PYTORCH_BUILD_DIR:  ${{ github.workspace }}\pytorch-unit-tests\pytorch\build
-  OPENBLAS_SOURCES_DIR:  ${{ github.workspace }}\pytorch-unit-tests\openblas
-  OPENBLAS_BUILD_DIR:  ${{ github.workspace }}\pytorch-unit-tests\openblas\build
+  JOB_DIR: ${{ github.workspace }}\pytorch-job
+  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src
+  # OPENBLAS_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\openblas
+  # OPENBLAS_BUILD_DIR:  ${{ github.workspace }}\pytorch-job\openblas\build
 
 jobs:
   wipe:
@@ -47,14 +41,11 @@ jobs:
         with:
           path: ${{ env.JOB_DIR }}\workflow
       - name: Wipe OpenBLAS sources
-        if: ${{ inputs.openblas_sources }}
+        if: ${{ inputs.is_openblas_sources }}
         run: ${{ env.SCRIPTS_DIR }}\wipe_openblas_sources.bat
       - name: Wipe OpenBLAS build
-        if: ${{ inputs.openblas_build }}
+        if: ${{ inputs.is_openblas_build }}
         run: ${{ env.SCRIPTS_DIR }}\wipe_openblas_build.bat
       - name: Wipe PyTorch sources
-        if: ${{ inputs.pytorch_sources }}
+        if: ${{ inputs.is_pytorch_sources }}
         run: ${{ env.SCRIPTS_DIR }}\wipe_pytorch_sources.bat
-      - name: Wipe PyTorch build
-        if: ${{ inputs.pytorch_build }}
-        run: ${{ env.SCRIPTS_DIR }}\wipe_pytorch_build.bat
