@@ -5,7 +5,7 @@ name: Release
 # Schedule doesn't accept inputs. So, this has hardcoded values for repository / branch
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "7 0 * * *"
 
 jobs:
   create_release:
