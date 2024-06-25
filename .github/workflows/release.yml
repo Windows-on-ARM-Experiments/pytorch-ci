@@ -28,6 +28,11 @@ on:
         required: true
         default: "torch-2.4.0a-cp311-cp311-win_arm64.whl"
         type: string
+      release_prefix:
+        description: "Release prefix for releases page"
+        required: true
+        default: "Manual Release"
+        type: string
     
   # for daily releases
   workflow_call:
@@ -39,6 +44,8 @@ on:
       pytorch_branch:
         type: string
       wheel_name:
+        type: string
+      release_prefix:
         type: string
 
 env:
@@ -53,7 +60,6 @@ env:
   ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
   DEPENDENCY_SCCACHE_DIR: C:\_WORK\dependencies\sccache
   DEPENDENCY_APL_DIR: C:\_WORK\dependencies\apl\armpl_24.04\bin
-  RELEASE_PREFIX: Manual Release
 
 jobs:
   create_release:
@@ -87,7 +93,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: ${{ env.RELEASE_PREFIX }} - ${{ env.RELEASE_VERSION }}
+          release_name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
           draft: false
           prerelease: false

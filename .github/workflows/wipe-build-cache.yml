@@ -70,28 +70,13 @@ on:
         options:
           - apl
 
-env:
-  BLASS_TYPE: 'apl'
-  PYTORCH_REPOSITORY: iremyux\pytorch
-  PYTORCH_BRANCH: apl-tests
-  JOB_DIR: ${{ github.workspace }}\pytorch-job
-  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
-  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
-  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
-  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\iremyux\pytorch\apl-tests
-  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\src\iremyux\pytorch\apl-tests\dist
-  WHEEL_NAME: torch-2.4.0a-cp311-cp311-win_arm64.whl
-  ENABLE_BUILD_WHEEL: 1
-  DEPENDENCY_SCCACHE_DIR: C:\_WORK\dependencies\sccache
-  DEPENDENCY_APL_DIR: C:\_WORK\dependencies\apl\armpl_24.04\bin
-  RELEASE_PREFIX: Daily Release
-
 jobs:
   create_release:
     name: Create Release
     uses: ./.github/workflows/release.yml
     with:
       blass_type: 'apl'
-      pytorch_repository: ' iremyux\pytorch'
+      pytorch_repository: ' iremyux/pytorch'
       pytorch_branch: 'apl-tests'
       wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64.whl'
+      release_prefix: 'Daily Release'
