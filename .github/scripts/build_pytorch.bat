@@ -32,7 +32,7 @@ pip install -r requirements.txt
 :: activate visual studio
 set "vswhere=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 set visualstudio=
-for /f "delims=" %%v in ('"%vswhere%" -products Microsoft.VisualStudio.Product.BuildTools -latest -property installationPath') do set "visualstudio=%%v"
+for /f "delims=" %%v in ('"%vswhere%" -products * -latest -property installationPath') do set "visualstudio=%%v"
 if "%visualstudio%" == "" (
   echo Visual Studio not found!
   goto :eof
