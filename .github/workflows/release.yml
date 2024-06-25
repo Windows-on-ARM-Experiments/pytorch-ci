@@ -40,9 +40,10 @@ env:
   ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
   DEPENDENCY_SCCACHE_DIR: C:\_WORK\dependencies\sccache
   DEPENDENCY_APL_DIR: C:\_WORK\dependencies\apl\armpl_24.04\bin
+  RELEASE_PREFIX: Manual Release
 
 jobs:
-  build_and_test:
+  create_release:
     name: Create Release
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
     timeout-minutes: 800
@@ -73,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: Manual Release - ${{ env.RELEASE_VERSION }}
+          release_name: ${{ env.RELEASE_PREFIX }} - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
           draft: false
           prerelease: false
