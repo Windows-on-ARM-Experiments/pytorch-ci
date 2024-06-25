@@ -3,6 +3,7 @@ name: Release
 # Controls when the workflow will run
 # OpenBLAS is disabled for now
 on:
+  # for manual releases
   workflow_dispatch:
     inputs:
       blass_type:
@@ -27,6 +28,18 @@ on:
         required: true
         default: "torch-2.4.0a-cp311-cp311-win_arm64.whl"
         type: string
+    
+    # for daily releases
+    workflow_call:
+      inputs:
+        blass_type:
+          type: string
+        pytorch_repository:
+          type: string
+        pytorch_branch:
+          type: string
+        wheel_name:
+          type: string
 
 env:
   JOB_DIR: ${{ github.workspace }}\pytorch-job
