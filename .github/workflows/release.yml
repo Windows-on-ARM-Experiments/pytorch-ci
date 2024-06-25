@@ -50,11 +50,11 @@ jobs:
       - name: Get Release Version
         run: echo "RELEASE_VERSION=v0.0.$(Get-Date -Format 'yyMMddHHmm')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
       - name: Git checkout workflow
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.JOB_DIR }}/workflow
       - name: Git checkout PyTorch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository:  ${{ inputs.pytorch_repository }}
           ref: ${{ inputs.pytorch_branch }}

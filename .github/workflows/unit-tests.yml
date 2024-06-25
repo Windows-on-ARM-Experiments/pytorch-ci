@@ -87,11 +87,11 @@ jobs:
     timeout-minutes: 800
     steps:
       - name: Git checkout workflow
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.JOB_DIR }}/workflow
       - name: Git checkout PyTorch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository:  ${{ inputs.pytorch_repository }}
           ref: ${{ inputs.pytorch_branch }}
@@ -130,7 +130,7 @@ jobs:
       # TEMPORARILY DISABLED FOR FUTURE WORK
       # - name: Git checkout OpenBLAS
       #   if: ${{ env.ENABLE_OPENBLAS }}
-      #   uses: actions/checkout@v3
+      #   uses: actions/checkout@v4
       #   with:
       #     repository: ${{ inputs.openblas_repository }}
       #     ref: ${{ inputs.openblas_branch }}
