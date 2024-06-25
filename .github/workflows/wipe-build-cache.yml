@@ -89,8 +89,6 @@ env:
 jobs:
   create_release:
     name: Create Release
-    runs-on: [self-hosted, Windows, ARM64, PYTORCH]
-    timeout-minutes: 800
     uses: ./.github/workflows/release.yml
     with:
       blass_type: ${{ env.BLASS_TYPE }}
