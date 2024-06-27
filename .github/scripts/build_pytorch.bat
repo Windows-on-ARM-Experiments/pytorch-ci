@@ -3,13 +3,12 @@
 sccache --zero-stats
 
 :: environment variables
-if %ENABLE_APL% (
+if "%ENABLE_APL%"=="1" (
   set BLAS=APL
-) else if %ENABLE_OPENBLAS% (
+) else if "%ENABLE_OPENBLAS%"=="1" (
   set BLAS=OpenBLAS
   set OpenBLAS_HOME=%DEPENDENCIES_DIR%\openblas\install
 )
-
 set REL_WITH_DEB_INFO=1
 set CMAKE_BUILD_TYPE=RelWithDebInfo
 set USE_LAPACK=1
