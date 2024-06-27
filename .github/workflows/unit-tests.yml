@@ -5,19 +5,6 @@ name: Build and run tests
 on:
   workflow_dispatch:
     inputs:
-      openblas_repository:
-        description: "OpenBLAS repository"
-        required: true
-        default: "OpenMathLib/OpenBLAS"
-        type: string
-      openblas_branch:
-        description: "OpenBLAS branch"
-        required: true
-        default: "release-0.3.27"
-        type: string
-        options: 
-         - release-0.3.0
-         - release-0.3.27
       blass_type:
         description: "Choose BLAS type"
         required: true
@@ -97,8 +84,8 @@ jobs:
         if: ${{ env.ENABLE_OPENBLAS }}
         uses: actions/checkout@v4
         with:
-          repository: ${{ inputs.openblas_repository }}
-          ref: ${{ inputs.openblas_branch }}
+          repository: "OpenMathLib/OpenBLAS"
+          ref: "release-0.3.27"
           path: ${{ env.DEPENDENCIES_DIR }}/openblas
           submodules: recursive
       - name: Build OpenBLAS with MSVC
