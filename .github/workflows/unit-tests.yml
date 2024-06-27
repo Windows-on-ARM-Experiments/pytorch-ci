@@ -102,8 +102,8 @@ jobs:
           path: ${{ env.DEPENDENCIES_DIR }}/openblas
           submodules: recursive
       - name: Build OpenBLAS with MSVC
-         if: ${{ inputs.blass_type == 'openblas_msvc'}}
-         run: |
+        if: ${{ env.ENABLE_OPENBLAS && inputs.blass_type == 'openblas_msvc'}}
+        run: |
           & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
       - name: Git checkout PyTorch
         uses: actions/checkout@v4
