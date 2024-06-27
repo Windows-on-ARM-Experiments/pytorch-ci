@@ -4,7 +4,13 @@ sccache --zero-stats
 
 :: environment variables
 :: TODO: OpenBLAS implementation will be applied
-set BLAS=APL
+if(ENABLE_APL) (
+  set BLAS=APL
+) else if(ENABLE_OPENBLAS) (
+  set BLAS=OpenBLAS
+  set OpenBLAS_HOME=%DEPENDENCIES_DIR%\openblas\install
+)
+
 set REL_WITH_DEB_INFO=1
 set CMAKE_BUILD_TYPE=RelWithDebInfo
 set USE_LAPACK=1
