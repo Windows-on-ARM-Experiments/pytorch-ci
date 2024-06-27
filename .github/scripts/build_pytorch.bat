@@ -3,10 +3,9 @@
 sccache --zero-stats
 
 :: environment variables
-:: TODO: OpenBLAS implementation will be applied
-if(ENABLE_APL) (
+if %ENABLE_APL% (
   set BLAS=APL
-) else if(ENABLE_OPENBLAS) (
+) else if %ENABLE_OPENBLAS% (
   set BLAS=OpenBLAS
   set OpenBLAS_HOME=%DEPENDENCIES_DIR%\openblas\install
 )
