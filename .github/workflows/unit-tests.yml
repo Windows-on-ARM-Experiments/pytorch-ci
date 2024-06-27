@@ -1,23 +1,23 @@
 name: Build and run tests
 
-# 1. OpenBLAS is disabled for now
-# 2. APL and sccache bootstrap is pre-installed. bootstrap scripts can be used for portability.
+# 1. APL and sccache bootstrap is pre-installed. bootstrap scripts can be used for portability.
+
 on:
   workflow_dispatch:
     inputs:
       openblas_repository:
-         description: "OpenBLAS repository"
-         required: true
-         default: "OpenMathLib/OpenBLAS"
-         type: string
-       openblas_branch:
-         description: "OpenBLAS branch"
-         required: true
-         default: "release-0.3.27"
-         type: string
-         options: 
-          - release-0.3.0
-          - release-0.3.27
+        description: "OpenBLAS repository"
+        required: true
+        default: "OpenMathLib/OpenBLAS"
+        type: string
+      openblas_branch:
+        description: "OpenBLAS branch"
+        required: true
+        default: "release-0.3.27"
+        type: string
+        options: 
+         - release-0.3.0
+         - release-0.3.27
       blass_type:
         description: "Choose BLAS type"
         required: true
