@@ -5,13 +5,15 @@ cd %PYTORCH_SOURCES_DIR%
 python -m venv venv
 echo * > venv\.gitignore
 call .\venv\Scripts\activate
+
+echo Debug: Before python path
 where python
-
-:: link the local PyTorch build to the virtual environment
-pip install -e .
-
+echo Debug: After python path
+echo Current directory path: %CD%
 :: change to test directory
 cd test
+
+echo Current directory path: %CD%
 
 if "%3"=="" (
     python run_test.py -i %2 --verbose --save-xml --keep-going --runs %1
