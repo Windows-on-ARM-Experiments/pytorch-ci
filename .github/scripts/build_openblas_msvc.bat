@@ -8,8 +8,8 @@ if "%visualstudio%" == "" (
 
 call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 
-mkdir %DEPENDENCIES_DIR%\openblas\build
-cd %DEPENDENCIES_DIR%\openblas\build
+mkdir %DEPENDENCY_OPENBLAS_DIR%\build
+cd %DEPENDENCY_OPENBLAS_DIR%\build
 
 set CMAKE_BUILD_TYPE=RelWithDebInfo
 

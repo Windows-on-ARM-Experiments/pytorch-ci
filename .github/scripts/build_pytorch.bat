@@ -5,9 +5,10 @@ sccache --zero-stats
 :: environment variables
 if "%ENABLE_APL%"=="1" (
   set BLAS=APL
+  set PATH=%DEPENDENCY_APL_DIR%;%PATH%
 ) else if "%ENABLE_OPENBLAS%"=="1" (
   set BLAS=OpenBLAS
-  set OpenBLAS_HOME=%DEPENDENCIES_DIR%\openblas\install
+  set OpenBLAS_HOME=%DEPENDENCY_OPENBLAS_DIR%\install
 )
 set REL_WITH_DEB_INFO=1
 set CMAKE_BUILD_TYPE=RelWithDebInfo
@@ -18,7 +19,6 @@ set CMAKE_CXX_COMPILER_LAUNCHER=sccache
 
 :: TODO: Dependencies
 set PATH=%DEPENDENCY_SCCACHE_DIR%;%PATH%
-set PATH=%DEPENDENCY_APL_DIR%;%PATH%
 
 :: change to source directory
 cd %PYTORCH_SOURCES_DIR%

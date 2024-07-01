@@ -68,6 +68,9 @@ env:
   PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}
   ENABLE_APL: ${{ inputs.blas_type == 'apl' && '1' || '0' }}
   ENABLE_OPENBLAS: ${{ (inputs.blas_type == 'openblas_msvc' || inputs.blas_type == 'openblas_clang') && '1' || '0' }}
+  DEPENDENCY_SCCACHE_DIR: ${{ env.DEPENDENCIES_DIR }}\sccache
+  DEPENDENCY_APL_DIR: ${{ env.DEPENDENCIES_DIR }}\apl\armpl_24.04\bin
+  DEPENDENCY_OPENBLAS_DIR: ${{ env.DEPENDENCIES_DIR }}\openblas
 
 jobs:
 
@@ -86,7 +89,7 @@ jobs:
         with:
           repository: "OpenMathLib/OpenBLAS"
           ref: "release-0.3.0"
-          path: ${{ env.DEPENDENCIES_DIR }}/openblas
+          path: ${{ env.DEPENDENCY_OPENBLAS_DIR }}
           submodules: recursive
       - name: Build OpenBLAS with MSVC
         if: ${{ inputs.blas_type == 'openblas_msvc'}}
