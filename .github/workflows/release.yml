@@ -1,18 +1,19 @@
 name: Release
 
 # Controls when the workflow will run
-# OpenBLAS is disabled for now
+
 on:
   # for manual releases
   workflow_dispatch:
     inputs:
       blass_type:
-        description: "Choose BLAS type (for now only APL)"
+        description: "Choose BLAS type"
         required: true
         default: 'apl'
         type: choice
         options:
           - apl
+          - openblas_msvc
       pytorch_repository:
         description: "PyTorch repository"
         required: true
@@ -58,6 +59,7 @@ env:
   WHEEL_NAME: ${{ inputs.wheel_name }}
   ENABLE_BUILD_WHEEL: 1
   ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
+  ENABLE_OPENBLAS: ${{ (inputs.blass_type == 'openblas_msvc' || inputs.blass_type == 'openblas_clang') && '1' || '0' }}
   DEPENDENCY_SCCACHE_DIR: C:\_WORK\dependencies\sccache
   DEPENDENCY_APL_DIR: C:\_WORK\dependencies\apl\armpl_24.04\bin
 
@@ -73,6 +75,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: ${{ env.JOB_DIR }}/workflow
+      - name: Git checkout OpenBLAS
+        if: ${{ env.ENABLE_OPENBLAS }}
+        uses: actions/checkout@v4
+        with:
+          repository: "OpenMathLib/OpenBLAS"
+          ref: "release-0.3.0"
+          path: ${{ env.DEPENDENCIES_DIR }}/openblas
+          submodules: recursive
+      - name: Build OpenBLAS with MSVC
+        if: ${{ inputs.blass_type == 'openblas_msvc'}}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
       - name: Git checkout PyTorch
         uses: actions/checkout@v4
         with:
