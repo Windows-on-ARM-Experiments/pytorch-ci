@@ -22,9 +22,21 @@ Set following variables in command line.
 
 ```
 set PYTORCH_SOURCES_DIR="PYTORCH_SOURCE_DIR"
-set DEPENDENCY_APL_DIR="APL_DIR"
 set DEPENDENCY_SCCACHE_DIR="DEPENDENCY_SCCACHE_DIR"
 ```
+
+Depending on the BLAS option you choose, set relevant variables. Right now, APL and OpenBLAS are supported.
+
+```
+set ENABLE_APL=1
+set DEPENDENCY_APL_DIR="APL_DIR"
+```
+or
+```
+set ENABLE_OPENBLAS=1
+set DEPENDENCY_OPENBLAS_DIR="OPENBLAS_SOURCE_DIR"
+```
+
 
 Then call `build_local.bat` or `build_local.bat bootstrap` to clean build.
 
