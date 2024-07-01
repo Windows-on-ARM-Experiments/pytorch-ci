@@ -11,7 +11,7 @@ jobs:
     name: Create Release
     uses: ./.github/workflows/release.yml
     with:
-      blass_type: 'openblas_msvc'
+      blas_type: 'openblas_msvc'
       pytorch_repository: 'iremyux/pytorch'
       pytorch_branch: 'apl-tests'
       wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64-openblas.whl'

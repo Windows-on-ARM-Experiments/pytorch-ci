@@ -5,7 +5,7 @@ name: Build and run tests
 on:
   workflow_dispatch:
     inputs:
-      blass_type:
+      blas_type:
         description: "Choose BLAS type"
         required: true
         default: 'apl'
@@ -66,8 +66,8 @@ env:
   DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
   PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}
-  ENABLE_APL: ${{ inputs.blass_type == 'apl' && '1' || '0' }}
-  ENABLE_OPENBLAS: ${{ (inputs.blass_type == 'openblas_msvc' || inputs.blass_type == 'openblas_clang') && '1' || '0' }}
+  ENABLE_APL: ${{ inputs.blas_type == 'apl' && '1' || '0' }}
+  ENABLE_OPENBLAS: ${{ (inputs.blas_type == 'openblas_msvc' || inputs.blas_type == 'openblas_clang') && '1' || '0' }}
 
 jobs:
 
@@ -89,7 +89,7 @@ jobs:
           path: ${{ env.DEPENDENCIES_DIR }}/openblas
           submodules: recursive
       - name: Build OpenBLAS with MSVC
-        if: ${{ inputs.blass_type == 'openblas_msvc'}}
+        if: ${{ inputs.blas_type == 'openblas_msvc'}}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
       - name: Git checkout PyTorch
@@ -143,7 +143,7 @@ jobs:
       #   run: |
       #     & ${{ env.SCRIPTS_DIR }}\bootstrap_openblas.bat
       # - name: Build OpenBLAS with Clang
-      #   if: ${{ inputs.blass_type == 'openblas_clang'}}
+      #   if: ${{ inputs.blas_type == 'openblas_clang'}}
       #   run: |
       #     & ${{ env.SCRIPTS_DIR }}\build_openblas_clang.bat
       # - name: Archive OpenBLAS
