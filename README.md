@@ -7,14 +7,18 @@ An experimental CI/CD implementation for PyTorch Windows ARM64.
 
 - Windows ARM64
 
-- [APL 24.04 for Windows](https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries#Software-Download)
-
 - [sccache](https://github.com/mozilla/sccache/releases)
 
 - [MSVC Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022) or Visual Studio 2022
 
     - **C/C++ Component** should be installed
     - **ARM64/ARM64EC** **individual** component should be installed
+
+- [APL 24.04 for Windows](https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries#Software-Download)
+
+or
+
+- [OpenBLAS](https://github.com/OpenMathLib/OpenBLAS/releases/tag/v0.3.27)
 
 # Local Build
 
