@@ -1,4 +1,4 @@
-name: Release
+name: Daily Release
 
 # Controls when the workflow will run
 # Schedule doesn't accept inputs. So, this has hardcoded values for repository / branch
@@ -15,7 +15,7 @@ jobs:
       pytorch_repository: 'iremyux/pytorch'
       pytorch_branch: 'apl-tests'
       wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64-apl.whl'
-      release_prefix: 'Daily Release'
+      release_prefix: 'Daily Release APL'
   create_release_openblas:
     name: Create Release with OpenBLAS
     uses: ./.github/workflows/release.yml
@@ -24,4 +24,4 @@ jobs:
       pytorch_repository: 'iremyux/pytorch'
       pytorch_branch: 'apl-tests'
       wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64-openblas.whl'
-      release_prefix: 'Daily Release'
+      release_prefix: 'Daily Release OpenBLAS'
