@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       is_openblas_sources:
-         description: "Enable wipe OpenBLAS sources?"
-         required: false
-         default: false
-         type: boolean
-       is_openblas_build:
-         description: "Enable wipe OpenBLAS build?"
-         required: false
-         default: false
-         type: boolean
+        description: "Enable wipe OpenBLAS sources?"
+        required: false
+        default: false
+        type: boolean
+      is_openblas_build:
+        description: "Enable wipe OpenBLAS build?"
+        required: false
+        default: false
+        type: boolean
       is_pytorch_sources:
         description: "Enable wipe PyTorch sources?"
         required: false
