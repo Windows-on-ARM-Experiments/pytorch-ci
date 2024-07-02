@@ -11,7 +11,7 @@ where python
 cd test
 
 if "%3"=="" (
-    python %2 --verbose -vvvv -rfEsxXP -p no:xdist --use-pytest --save-xml -k "deadlock"
+    python run_test.py -i %2 --verbose --save-xml --keep-going --runs %1
 ) else (
     python run_test.py -i %2 --verbose --save-xml --keep-going --runs %1 --filter "%3" 
 )
