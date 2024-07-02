@@ -13,7 +13,7 @@ on:
         type: choice
         options:
           - apl
-          - openblas_msvc
+          - openblas
       pytorch_repository:
         description: "PyTorch repository"
         required: true
@@ -59,7 +59,7 @@ env:
   WHEEL_NAME: ${{ inputs.wheel_name }}
   ENABLE_BUILD_WHEEL: 1
   ENABLE_APL: ${{ inputs.blas_type == 'apl' && '1' || '0' }}
-  ENABLE_OPENBLAS: ${{ (inputs.blas_type == 'openblas_msvc' || inputs.blas_type == 'openblas_clang') && '1' || '0' }}
+  ENABLE_OPENBLAS: ${{ (inputs.blas_type == 'openblas' || inputs.blas_type == 'openblas_clang') && '1' || '0' }}
   DEPENDENCY_SCCACHE_DIR: ${{ github.workspace }}\pytorch-job\dependencies\sccache
   DEPENDENCY_APL_DIR: ${{ github.workspace }}\pytorch-job\dependencies\apl\armpl_24.04\bin
   DEPENDENCY_OPENBLAS_DIR: ${{ github.workspace }}\pytorch-job\dependencies\openblas
@@ -85,7 +85,7 @@ jobs:
           path: ${{ env.DEPENDENCY_OPENBLAS_DIR }}
           submodules: recursive
       - name: Build OpenBLAS with MSVC
-        if: ${{ inputs.blas_type == 'openblas_msvc'}}
+        if: ${{ inputs.blas_type == 'openblas'}}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
       - name: Git checkout PyTorch
