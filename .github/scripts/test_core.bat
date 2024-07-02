@@ -10,4 +10,11 @@ where python
 :: change to test directory
 cd test
 
-python run_test.py --core --verbose --save-xml --keep-going %*
+set CORE_TEST_LIST=test_autograd.py test_autograd_fallback.py test_modules.py test_nn.py test_ops.py test_ops_gradients.py test_ops_fwd_gradients.py test_ops_jit test_torch.py
+
+for /L %%i in (1,1,%1) do (
+    for %%t in (%CORE_TEST_LIST%) do (
+        echo Running test: %%t
+        python %%t --verbose --save-xml --use-pytest -vvvv -rfEsxXP -p no:xdist
+    )
+)
