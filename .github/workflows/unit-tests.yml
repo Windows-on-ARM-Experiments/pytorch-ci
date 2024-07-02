@@ -91,6 +91,7 @@ jobs:
         with:
           path: ${{ env.JOB_DIR }}/workflow
       - name: Git checkout PyTorch
+        if: ${{ inputs.is_build_pytorch }}
         uses: actions/checkout@v4
         with:
           repository:  ${{ inputs.pytorch_repository }}
