@@ -15,6 +15,6 @@ for /L %%i in (1,1,%1) do (
         python %2.py -k "%3" --verbose --save-xml --use-pytest -vvvv -rfEsxXP -p no:xdist
     ) else (
         echo Running iteration %%i
-        python %2 --verbose --save-xml --use-pytest -vvvv -rfEsxXP -p no:xdist
+        python %2.py --verbose --save-xml --use-pytest -vvvv -rfEsxXP -p no:xdist
     )
 )
