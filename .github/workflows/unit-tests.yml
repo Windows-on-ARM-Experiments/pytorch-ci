@@ -126,7 +126,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-reports
-          path: ${{ env.JOB_DIR }}/pytorch/test/test-reports/*
+          path: ${{ env.PYTORCH_SOURCES_DIR }}/test/test-reports/*
           retention-days: 7
       # TEMPORARILY DISABLED FOR FUTURE WORK
       # - name: Git checkout OpenBLAS
