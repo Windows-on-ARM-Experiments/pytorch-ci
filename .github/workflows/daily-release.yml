@@ -4,7 +4,7 @@ name: Daily Release
 # Schedule doesn't accept inputs. So, this has hardcoded values for repository / branch
 on:
   schedule:
-    - cron: "36 16 * * *"
+    - cron: "0 9 * * *"
 
 jobs:
   create_release_apl:
@@ -14,8 +14,8 @@ jobs:
       blas_type: 'apl'
       pytorch_repository: 'iremyux/pytorch'
       pytorch_branch: 'apl-tests'
-      wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64-apl.whl'
-      release_prefix: 'Daily Release APL'
+      wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64.whl'
+      release_prefix: 'Daily Release - APL'
   create_release_openblas:
     name: Create Release with OpenBLAS
     uses: ./.github/workflows/release.yml
@@ -23,5 +23,5 @@ jobs:
       blas_type: 'openblas'
       pytorch_repository: 'iremyux/pytorch'
       pytorch_branch: 'apl-tests'
-      wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64-openblas.whl'
-      release_prefix: 'Daily Release OpenBLAS'
+      wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64.whl'
+      release_prefix: 'Daily Release - OpenBLAS'

@@ -91,6 +91,10 @@ jobs:
           ref: "v0.3.27"
           path: ${{ env.DEPENDENCY_OPENBLAS_DIR }}
           submodules: recursive
+      - name: Bootstrap OpenBLAS build
+        if: ${{ env.ENABLE_OPENBLAS }}
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_openblas.bat
       - name: Build OpenBLAS with MSVC
         if: ${{ inputs.blas_type == 'openblas'}}
         run: |
@@ -141,10 +145,6 @@ jobs:
       #   if: ${{ env.ENABLE_APL }}
       #   run: |
       #     & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
-      # - name: Bootstrap OpenBLAS build
-      #   if: ${{ env.ENABLE_OPENBLAS }}
-      #   run: |
-      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_openblas.bat
       # - name: Build OpenBLAS with Clang
       #   if: ${{ inputs.blas_type == 'openblas_clang'}}
       #   run: |

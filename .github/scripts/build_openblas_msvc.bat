@@ -11,8 +11,6 @@ call "%visualstudio%\VC\Auxiliary\Build\vcvarsall.bat" arm64
 mkdir %DEPENDENCY_OPENBLAS_DIR%\build
 cd %DEPENDENCY_OPENBLAS_DIR%\build
 
-set CMAKE_BUILD_TYPE=RelWithDebInfo
-
 echo Building OpenBLAS...
 cmake .. -G Ninja  ^
   -DBUILD_TESTING=0 ^
