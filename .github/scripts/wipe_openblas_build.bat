@@ -1,5 +1,5 @@
 @echo on
 
-if exist [%OPENBLAS__BUILD_DIR%] (
-  rmdir /s /q %OPENBLAS__BUILD_DIR%
+if exist [%OPENBLAS_BUILD_DIR%] (
+  rmdir /s /q %OPENBLAS_BUILD_DIR%
 )
