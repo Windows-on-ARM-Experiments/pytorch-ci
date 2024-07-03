@@ -95,8 +95,6 @@ jobs:
           name: test-reports
           path: ${{ env.PYTORCH_SOURCES_DIR }}\test\test-reports\*
           retention-days: 7
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\test_core.bat
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
