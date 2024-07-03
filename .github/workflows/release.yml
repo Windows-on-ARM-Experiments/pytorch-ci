@@ -86,6 +86,17 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+      - name: Run core tests
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\test_core.bat 1
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-reports
+          path: ${{ env.PYTORCH_SOURCES_DIR }}\test\test-reports\*
+          retention-days: 7
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\test_core.bat
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
