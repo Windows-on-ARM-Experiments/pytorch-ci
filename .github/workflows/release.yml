@@ -86,6 +86,9 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+      - name: Bootstrap PyTorch tests
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_tests.bat      
       - name: Run core tests
         run: |
           & ${{ env.SCRIPTS_DIR }}\test_core.bat 1

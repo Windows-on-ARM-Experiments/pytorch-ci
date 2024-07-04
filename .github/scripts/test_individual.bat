@@ -2,8 +2,9 @@
 cd %PYTORCH_SOURCES_DIR%
 
 :: create virtual environment
+python -m venv venv
+echo * > venv\.gitignore
 call .\venv\Scripts\activate
-where python
 
 :: Change to the test directory
 cd test
