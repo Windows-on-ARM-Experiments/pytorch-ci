@@ -116,6 +116,8 @@ jobs:
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
       - name: Archive PyTorch
         if: ${{ inputs.is_archive_pytorch }}
+        runs:
+          using: 'node20'
         uses: actions/upload-artifact@v3
         with:
           name: pytorch
@@ -131,7 +133,7 @@ jobs:
           & ${{ env.SCRIPTS_DIR }}\test.bat ${{ inputs.run_tests_runs}} ${{ inputs.run_tests_suite }} ${{ inputs.run_tests_filter }}
       - name: Archive test results
         if: ${{ always() && inputs.is_run_tests }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-reports
           path: ${{ env.JOB_DIR }}/pytorch/test/test-reports/*
