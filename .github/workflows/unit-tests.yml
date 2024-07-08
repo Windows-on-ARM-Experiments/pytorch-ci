@@ -116,9 +116,7 @@ jobs:
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
       - name: Archive PyTorch
         if: ${{ inputs.is_archive_pytorch }}
-        runs:
-          using: 'node20'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pytorch
           path: ${{ env.PYTORCH_SOURCES_DIR }}/build/lib.win-arm64-cpython-311/torch/*
