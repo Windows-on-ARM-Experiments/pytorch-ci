@@ -70,8 +70,12 @@ jobs:
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
     timeout-minutes: 800
     steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Get Release Version
-        run: echo "RELEASE_VERSION=v0.0.$(Get-Date -Format 'yyMMddHHmm')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+        run: echo "RELEASE_VERSION=v0.0.$(Get-Date -Format 'yyMMddHHmm')" >> $env:GITHUB_ENV
       - name: Git checkout workflow
         uses: actions/checkout@v4
         with:
