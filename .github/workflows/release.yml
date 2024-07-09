@@ -55,7 +55,7 @@ env:
   DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
   PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}
-  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}\dist
+  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository | replace('/', '\') }}\${{ inputs.pytorch_branch }}\dist
   WHEEL_NAME: ${{ inputs.wheel_name }}
   ENABLE_BUILD_WHEEL: 1
   ENABLE_APL: ${{ inputs.blas_type == 'apl' && '1' || '0' }}
@@ -107,7 +107,7 @@ jobs:
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.WHEEL_DIR }}\*
+          files: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
           tag_name: ${{ env.RELEASE_VERSION }}
           name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
