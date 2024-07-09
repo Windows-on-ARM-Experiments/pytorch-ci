@@ -107,7 +107,7 @@ jobs:
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.WHEEL_DIR }}/*.whl
+          files: ${{ env.WHEEL_DIR }}\*
           tag_name: ${{ env.RELEASE_VERSION }}
           name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
