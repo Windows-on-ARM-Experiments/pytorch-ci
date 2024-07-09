@@ -17,7 +17,7 @@ on:
       pytorch_repository:
         description: "PyTorch repository"
         required: true
-        default: "iremyux\\pytorch"
+        default: "iremyux/pytorch"
         type: string
       pytorch_branch:
         description: "PyTorch branch"
