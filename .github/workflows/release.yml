@@ -17,7 +17,7 @@ on:
       pytorch_repository:
         description: "PyTorch repository"
         required: true
-        default: "iremyux/pytorch"
+        default: "iremyux\pytorch"
         type: string
       pytorch_branch:
         description: "PyTorch branch"
@@ -107,7 +107,7 @@ jobs:
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
+          files: ${{ env.WHEEL_DIR }}\\${{ env.WHEEL_NAME }}
           tag_name: ${{ env.RELEASE_VERSION }}
           name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
