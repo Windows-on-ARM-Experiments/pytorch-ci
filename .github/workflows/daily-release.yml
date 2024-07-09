@@ -12,7 +12,7 @@ jobs:
     uses: ./.github/workflows/release.yml
     with:
       blas_type: 'apl'
-      pytorch_repository: 'iremyux\pytorch'
+      pytorch_repository: 'iremyux/pytorch'
       pytorch_branch: 'apl-tests'
       wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64.whl'
       release_prefix: 'Daily Release - APL'
@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/release.yml
     with:
       blas_type: 'openblas'
-      pytorch_repository: 'iremyux\pytorch'
+      pytorch_repository: 'iremyux/pytorch'
       pytorch_branch: 'apl-tests'
       wheel_name: 'torch-2.4.0a-cp311-cp311-win_arm64.whl'
       release_prefix: 'Daily Release - OpenBLAS'
