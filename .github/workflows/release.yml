@@ -101,6 +101,13 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+        - name: Convert Unix Slashes to Windows Slashes
+        run: |
+          $pytorch_repo = '${{ inputs.pytorch_repository }}'
+          $pytorch_repo_win = $pytorch_repo -replace '/', '\'
+          $wheel_dir = "${{ github.workspace }}\pytorch-job\src\$pytorch_repo_win\$($inputs.pytorch_branch)\dist"
+          Write-Output "Converted WHEEL_DIR: $wheel_dir"
+          echo "WHEEL_DIR=$wheel_dir" >> $env:GITHUB_ENV
       # Debugging step to list the contents of the dist directory
       - name: List dist directory contents
         run: dir ${{ env.WHEEL_DIR }}
