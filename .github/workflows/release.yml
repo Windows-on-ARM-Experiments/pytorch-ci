@@ -101,7 +101,7 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-      - name: name: Create and Upload Release
+      - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
