@@ -111,7 +111,7 @@ jobs:
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
+          files: C:\actions-runner\_work\pytorch-ci\pytorch-ci\pytorch-job\src\iremyux\pytorch\apl-tests\dist\${{ env.WHEEL_NAME }}
           tag_name: ${{ env.RELEASE_VERSION }}
           name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
