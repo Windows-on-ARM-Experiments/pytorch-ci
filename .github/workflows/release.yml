@@ -101,12 +101,12 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-      # - name: Convert Unix Slashes to Windows Slashes
-      #   run: |
-      #     $WHEEL_DIR_WIN = $WHEEL_DIR -replace '/', '\'
-      #     $WHEEL_DIR = $WHEEL_DIR_WIN
-      #     echo $WHEEL_DIR_WIN
-      #     echo $WHEEL_DIR
+      - name: Convert Unix Slashes to Windows Slashes
+        run: |
+          $WHEEL_DIR_WIN = $WHEEL_DIR -replace '/', '\'
+          $WHEEL_DIR = $WHEEL_DIR_WIN
+          echo $WHEEL_DIR_WIN
+          echo $WHEEL_DIR
       # Debugging step to list the contents of the dist directory
       - name: List dist directory contents
         run: dir ${{ env.WHEEL_DIR }}
