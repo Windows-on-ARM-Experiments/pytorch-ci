@@ -101,13 +101,10 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-      - name: Convert Unix Slashes to Windows Slashes in wheel_dir
+      - name: Convert Unix Slashes to Windows Slashes in WHEEL_DIR
         run: |
           $wheel_dir_win = "${{ env.WHEEL_DIR }}" -replace '/', '\'
           echo "WHEEL_DIR_WIN=$wheel_dir_win" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
-      # Debugging step to list the contents of the dist directory
-      - name: List dist directory contents
-        run: dir ${{ env.WHEEL_DIR }}
       - name: Create and Upload Release
         uses: softprops/action-gh-release@v2
         with:
