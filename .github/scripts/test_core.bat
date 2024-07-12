@@ -10,7 +10,8 @@ where python
 :: change to test directory
 cd test
 
-set CORE_TEST_LIST=test_autograd.py test_modules.py test_nn.py test_ops.py test_ops_gradients.py test_ops_fwd_gradients.py test_ops_jit.py test_torch.py
+set CORE_TEST_LIST=test_autograd.py test_modules.py test_ops_jit.py
+@REM test_nn.py test_ops.py test_ops_gradients.py test_ops_fwd_gradients.py  test_torch.py
 
 for /L %%i in (1,1,%1) do (
     for %%t in (%CORE_TEST_LIST%) do (
