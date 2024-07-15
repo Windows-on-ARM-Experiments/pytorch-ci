@@ -45,7 +45,7 @@ pip install scipy-1.13.1-cp312-cp312-win_arm64.whl
 
 :: Delete extracted files
 echo Deleting extracted folder...
-cd ..
+cd ../..
 rd /s /q "%EXTRACT_DIR%"
 
 :: change back to source directory
