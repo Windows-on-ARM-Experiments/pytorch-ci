@@ -101,24 +101,18 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Convert Unix Slashes to Windows Slashes in WHEEL_DIR
+        run: |
+          $wheel_dir_win = "${{ env.WHEEL_DIR }}" -replace '\\', '/'
+          echo "WHEEL_DIR_WIN=$wheel_dir_win" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Create and Upload Release
+        uses: softprops/action-gh-release@v2
         with:
+          files: '${{ env.WHEEL_DIR_WIN }}/${{ env.WHEEL_NAME }}'
           tag_name: ${{ env.RELEASE_VERSION }}
-          release_name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
+          name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
           body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
           draft: false
           prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.WHEEL_DIR }}\${{ env.WHEEL_NAME }}
-          asset_name: ${{ env.WHEEL_NAME }}
-          asset_content_type: application/zip
