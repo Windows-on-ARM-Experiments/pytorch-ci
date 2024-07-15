@@ -55,11 +55,11 @@ on:
         default: false
         type: boolean
       run_tests_suite:
-        description: "Test suite to run. Running all core tests by default"
+        description: "Test suite to run. Empty string for running all tests."
         required: false
-        default: ''
         type: choice
         options:
+          - ""
           - test_autograd
           - test_modules
           - test_ops_jit
