@@ -32,8 +32,30 @@ set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2
 set ZIP_FILE="2024.6.15-experimental-cp312-win_arm64.whl.zip"
 set EXTRACT_DIR="2024.6.15-experimental-cp312-win_arm64"
 
-curl -L -o %EXTRACT_DIR% %WHEELS_URL%
-tar -xf %ZIP_FILE%
+if exist "%EXTRACT_DIR%" (
+    echo Extraction directory "%EXTRACT_DIR%" already exists. Skipping download and installation.
+    exit /b 0
+) else (  
+    echo Downloading ZIP file from %WHEELS_URL%...
+    curl -L -o "%ZIP_FILE%" "%WHEELS_URL%"
+:: Check if download was successful
+    if %errorlevel% neq 0 (
+      echo Failed to download the ZIP file.
+      exit /b 1
+    )
+
+:: Unzip the file using tar
+    echo Unzipping file %ZIP_FILE%...
+    tar -xf "%ZIP_FILE%" -C "%EXTRACT_DIR%"
+
+:: Check if unzip was successful
+    if %errorlevel% neq 0 (
+      echo Failed to unzip the file.
+      exit /b 1
+    )
+)
+
+:: The ZIP file contained a folder with the same name as the file
 cd "%EXTRACT_DIR%\%EXTRACT_DIR%"
 
 :: python install dependencies
@@ -42,11 +64,6 @@ python -m pip install --upgrade pip
 :: install numpy and Scipy experimental wheels
 pip install numpy-2.0.0-cp312-cp312-win_arm64.whl
 pip install scipy-1.13.1-cp312-cp312-win_arm64.whl
-
-:: Delete extracted files
-echo Deleting extracted folder...
-cd ../..
-rd /s /q "%EXTRACT_DIR%"
 
 :: change back to source directory
 cd %PYTORCH_SOURCES_DIR%
