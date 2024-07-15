@@ -55,17 +55,26 @@ on:
         default: false
         type: boolean
       run_tests_suite:
-        description: "Test suite to run"
+        description: "Test suite to run. Running all core tests by default"
         required: false
-        default: ""
-        type: string
+        default: ''
+        type: choice
+        options:
+          - test_autograd
+          - test_modules
+          - test_ops_jit
+          - test_nn
+          - test_ops
+          - test_ops_gradients
+          - test_ops_fwd_gradients
+          - test_torch
       run_tests_filter:
-        description: "Test filter to run"
+        description: "Filter for specific tests within a suite (e.g., 'deadlock', 'complex 128')."
         required: false
         default: ""
         type: string
       run_tests_runs:
-        description: "Test runs to execute"
+        description: "Number of test runs wanted"
         required: true
         default: 1
         type: number
