@@ -46,8 +46,8 @@ if exist "%EXTRACT_DIR%" (
 
 :: Unzip the file using tar
     echo Unzipping file %ZIP_FILE%...
-    tar xf "%ZIP_FILE%"
-
+    tar xf %ZIP_FILE%
+    dir
 :: Check if unzip was successful
     if %errorlevel% neq 0 (
       echo Failed to unzip the file.
@@ -55,9 +55,10 @@ if exist "%EXTRACT_DIR%" (
     )
 )
 
+dir %EXTRACT_DIR%
 :: The ZIP file contained a folder with the same name as the file
 cd "%EXTRACT_DIR%\%EXTRACT_DIR%"
-
+dir
 :: python install dependencies
 python -m pip install --upgrade pip
 
