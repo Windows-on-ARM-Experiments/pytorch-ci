@@ -28,9 +28,9 @@ echo * > venv\.gitignore
 call .\venv\Scripts\activate
 where python
 
-set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2024.6.15/2024.6.15-experimental-cp312-win_arm64.whl.zip"
-set ZIP_FILE="2024.6.15-experimental-cp312-win_arm64.whl.zip"
-set EXTRACT_DIR="2024.6.15-experimental-cp312-win_arm64.whl"
+set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2023.12.6/2023.12.6-experimental-cp311-win_arm64.whl.zip"
+set ZIP_FILE="2023.12.6-experimental-cp311-win_arm64.whl.zip"
+set EXTRACT_DIR="2023.12.6-experimental-cp311-win_arm64.whl"
 
 if exist "%EXTRACT_DIR%" (
     echo Extraction directory "%EXTRACT_DIR%" already exists. Skipping download and installation.
@@ -60,8 +60,8 @@ dir
 python -m pip install --upgrade pip
 
 :: install numpy and Scipy experimental wheels
-pip install numpy-2.0.0-cp312-cp312-win_arm64.whl
-pip install scipy-1.13.1-cp312-cp312-win_arm64.whl
+pip install numpy-1.26.2-cp311-cp311-win_arm64.whl
+pip install SciPy-1.11.4-cp311-cp311-win_arm64.whl
 
 :: change back to source directory
 cd %PYTORCH_SOURCES_DIR%
