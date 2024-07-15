@@ -28,13 +28,13 @@ echo * > venv\.gitignore
 call .\venv\Scripts\activate
 where python
 
-set "WHEELS_URL=https://github.com/cgohlke/win_arm64-wheels/releases/download/v2024.6.15/2024.6.15-experimental-cp312-win_arm64.whl.zip"
-set "ZIP_FILE=2024.6.15-experimental-cp312-win_arm64.whl.zip"
-set "EXTRACT_DIR=2024.6.15-experimental-cp312-win_arm64"
+set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2024.6.15/2024.6.15-experimental-cp312-win_arm64.whl.zip"
+set ZIP_FILE="2024.6.15-experimental-cp312-win_arm64.whl.zip"
+set EXTRACT_DIR="2024.6.15-experimental-cp312-win_arm64"
 
-curl -L -o "%ZIP_FILE%" "%WHEELS_URL%"
-tar -xf "%ZIP_FILE%"
-cd "%EXTRACT_DIR%"
+curl -L -o %EXTRACT_DIR% %WHEELS_URL%
+tar -xf %ZIP_FILE%
+cd "%EXTRACT_DIR%\%EXTRACT_DIR%"
 
 :: python install dependencies
 python -m pip install --upgrade pip
