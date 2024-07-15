@@ -13,7 +13,6 @@ if "%ENABLE_APL%"=="1" (
 set REL_WITH_DEB_INFO=1
 set CMAKE_BUILD_TYPE=RelWithDebInfo
 set USE_LAPACK=1
-@REM set USE_NUMPY=OFF
 set CMAKE_C_COMPILER_LAUNCHER=sccache
 set CMAKE_CXX_COMPILER_LAUNCHER=sccache
 
@@ -29,8 +28,30 @@ echo * > venv\.gitignore
 call .\venv\Scripts\activate
 where python
 
+set "WHEELS_URL=https://github.com/cgohlke/win_arm64-wheels/releases/download/v2024.6.15/2024.6.15-experimental-cp312-win_arm64.whl.zip"
+set "ZIP_FILE=2024.6.15-experimental-cp312-win_arm64.whl.zip"
+set "EXTRACT_DIR=2024.6.15-experimental-cp312-win_arm64"
+
+curl -L -o "%ZIP_FILE%" "%WHEELS_URL%"
+tar -xf "%ZIP_FILE%"
+cd "%EXTRACT_DIR%"
+
 :: python install dependencies
 python -m pip install --upgrade pip
+
+:: install numpy and Scipy experimental wheels
+pip install numpy-2.0.0-cp312-cp312-win_arm64.whl
+pip install scipy-1.13.1-cp312-cp312-win_arm64.whl
+
+:: Delete extracted files
+echo Deleting extracted folder...
+cd ..
+rd /s /q "%EXTRACT_DIR%"
+
+:: change back to source directory
+cd %PYTORCH_SOURCES_DIR%
+
+:: install pytorch dependencies
 pip install -r requirements.txt
  
 :: activate visual studio
