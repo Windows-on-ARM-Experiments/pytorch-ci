@@ -30,7 +30,7 @@ where python
 
 set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2024.6.15/2024.6.15-experimental-cp312-win_arm64.whl.zip"
 set ZIP_FILE="2024.6.15-experimental-cp312-win_arm64.whl.zip"
-set EXTRACT_DIR="2024.6.15-experimental-cp312-win_arm64"
+set EXTRACT_DIR="2024.6.15-experimental-cp312-win_arm64.whl"
 
 if exist "%EXTRACT_DIR%" (
     echo Extraction directory "%EXTRACT_DIR%" already exists. Skipping download and installation.
@@ -46,7 +46,7 @@ if exist "%EXTRACT_DIR%" (
 
 :: Unzip the file using tar
     echo Unzipping file %ZIP_FILE%...
-    tar -xf "%ZIP_FILE%" -C "%EXTRACT_DIR%"
+    tar xf "%ZIP_FILE%"
 
 :: Check if unzip was successful
     if %errorlevel% neq 0 (
@@ -56,7 +56,7 @@ if exist "%EXTRACT_DIR%" (
 )
 
 :: The ZIP file contained a folder with the same name as the file
-cd "%EXTRACT_DIR%"
+cd "%EXTRACT_DIR%\%EXTRACT_DIR%"
 
 :: python install dependencies
 python -m pip install --upgrade pip
