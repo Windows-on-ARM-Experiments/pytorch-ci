@@ -7,8 +7,6 @@ An experimental CI/CD implementation for PyTorch Windows ARM64.
 
 - Windows ARM64
 
-- [APL 24.04 for Windows](https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries#Software-Download)
-
 - [sccache](https://github.com/mozilla/sccache/releases)
 
 - [MSVC Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022) or Visual Studio 2022
@@ -16,15 +14,33 @@ An experimental CI/CD implementation for PyTorch Windows ARM64.
     - **C/C++ Component** should be installed
     - **ARM64/ARM64EC** **individual** component should be installed
 
+- [APL 24.04 for Windows](https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries#Software-Download)
+
+or
+
+- [OpenBLAS](https://github.com/OpenMathLib/OpenBLAS/releases/tag/v0.3.27)
+
 # Local Build
 
 Set following variables in command line.
 
 ```
 set PYTORCH_SOURCES_DIR="PYTORCH_SOURCE_DIR"
-set DEPENDENCY_APL_DIR="APL_DIR"
 set DEPENDENCY_SCCACHE_DIR="DEPENDENCY_SCCACHE_DIR"
 ```
+
+Depending on the BLAS option you choose, set relevant variables. Right now, APL and OpenBLAS are supported.
+
+```
+set ENABLE_APL=1
+set DEPENDENCY_APL_DIR="APL_DIR"
+```
+or
+```
+set ENABLE_OPENBLAS=1
+set DEPENDENCY_OPENBLAS_DIR="OPENBLAS_SOURCE_DIR"
+```
+
 
 Then call `build_local.bat` or `build_local.bat bootstrap` to clean build.
 

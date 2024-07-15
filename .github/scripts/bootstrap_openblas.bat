@@ -1,4 +1,5 @@
-echo %JOB_DIR% 
+echo %DEPENDENCIES_DIR% 
 
-del %JOB_DIR%\openblas\build /s /q /f
-del %JOB_DIR%\openblas\install /s /q /f
+del %DEPENDENCIES_DIR%\openblas\build /s /q /f
+del %DEPENDENCIES_DIR%\openblas\install /s /q /f
+
