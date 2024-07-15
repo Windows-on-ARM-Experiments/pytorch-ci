@@ -56,7 +56,7 @@ if exist "%EXTRACT_DIR%" (
 )
 
 :: The ZIP file contained a folder with the same name as the file
-cd "%EXTRACT_DIR%\%EXTRACT_DIR%"
+cd "%EXTRACT_DIR%"
 
 :: python install dependencies
 python -m pip install --upgrade pip
