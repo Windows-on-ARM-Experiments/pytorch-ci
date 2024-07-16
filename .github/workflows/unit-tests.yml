@@ -116,9 +116,8 @@ jobs:
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
         env:
-          SCCACHE_AZURE_CONNECTION_STRING: ${{ secrets.SCCACHE_AZURE_CONNECTION_STRING }}
+          SCCACHE_AZURE_CONNECTION_STRING: ${{ secrets.SCCACHE_AZURE_CONNECTION_STRING_BUILD }}
           SCCACHE_AZURE_BLOB_CONTAINER: ${{ secrets.SCCACHE_AZURE_BLOB_CONTAINER }}
-          SCCACHE_LOG: debug
       - name: Archive PyTorch
         if: ${{ inputs.is_archive_pytorch }}
         uses: actions/upload-artifact@v4
