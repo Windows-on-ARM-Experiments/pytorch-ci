@@ -5,7 +5,7 @@ set CI=true
 @echo Started: %date% %time%
 
 if "%2%3"=="" (
-    call %JOB_DIR%\workflow\.github\scripts\test_core.bat
+    call %JOB_DIR%\workflow\.github\scripts\test_core.bat %1
 ) else (
     call %JOB_DIR%\workflow\.github\scripts\test_individual.bat %1 %2 %3
 )

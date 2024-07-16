@@ -45,17 +45,26 @@ on:
         default: false
         type: boolean
       run_tests_suite:
-        description: "Test suite to run"
+        description: "Test suite to run. Empty string for running all tests."
         required: false
-        default: ""
-        type: string
+        type: choice
+        options:
+          - ""
+          - test_autograd
+          - test_modules
+          - test_ops_jit
+          - test_nn
+          - test_ops
+          - test_ops_gradients
+          - test_ops_fwd_gradients
+          - test_torch
       run_tests_filter:
-        description: "Test filter to run"
+        description: "Filter for specific tests within a suite (e.g., 'deadlock', 'complex 128')."
         required: false
         default: ""
         type: string
       run_tests_runs:
-        description: "Test runs to execute"
+        description: "Number of test runs wanted"
         required: true
         default: 1
         type: number
@@ -100,6 +109,7 @@ jobs:
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
       - name: Git checkout PyTorch
+        if: ${{ inputs.is_build_pytorch }}
         uses: actions/checkout@v4
         with:
           repository:  ${{ inputs.pytorch_repository }}
@@ -134,7 +144,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
-          path: ${{ env.JOB_DIR }}/pytorch/test/test-reports/*
+          path: ${{ env.PYTORCH_SOURCES_DIR }}\test\test-reports\*
           retention-days: 7
       # TEMPORARILY DISABLED FOR FUTURE WORK
 

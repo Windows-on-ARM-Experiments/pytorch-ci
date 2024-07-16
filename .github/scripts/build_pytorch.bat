@@ -56,6 +56,7 @@ if defined ENABLE_BUILD_WHEEL (
   :: rename wheel file
   cd %WHEEL_DIR%
   ren "torc*" %WHEEL_NAME%
+  pip install %WHEEL_NAME%
   cd ..
 ) else (
   echo ENABLE_BUILD_WHEEL is not set, install command will be executed...

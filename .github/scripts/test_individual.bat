@@ -5,13 +5,17 @@ cd %PYTORCH_SOURCES_DIR%
 python -m venv venv
 echo * > venv\.gitignore
 call .\venv\Scripts\activate
-where python
 
-:: change to test directory
+:: Change to the test directory
 cd test
 
-if "%3"=="" (
-    python run_test.py -i %2 --verbose --save-xml --keep-going --runs %1
-) else (
-    python run_test.py -i %2 --verbose --save-xml --keep-going --runs %1 --filter "%3" 
+:: Run individual test suite 
+for /L %%i in (1,1,%1) do (
+    if "%3" neq "" (
+        echo Running iteration %%i with filter %3
+        python %2.py -k "%3" --verbose --save-xml --use-pytest -vvvv -rfEsxXP -p no:xdist
+    ) else (
+        echo Running iteration %%i
+        python %2.py --verbose --save-xml --use-pytest -vvvv -rfEsxXP -p no:xdist
+    )
 )
