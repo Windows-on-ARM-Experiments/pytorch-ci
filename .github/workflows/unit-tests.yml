@@ -73,6 +73,7 @@ env:
   DEPENDENCY_OPENBLAS_DIR: ${{ github.workspace }}\pytorch-job\dependencies\openblas
   SCCACHE_AZURE_CONNECTION_STRING: ${{ secrets.SCCACHE_AZURE_CONNECTION_STRING }}
   SCCACHE_AZURE_BLOB_CONTAINER: ${{ secrets.SCCACHE_AZURE_BLOB_CONTAINER }}
+  SCCACHE_LOG: debug
 
 jobs:
 
