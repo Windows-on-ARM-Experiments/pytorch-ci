@@ -10,6 +10,20 @@ set DOWNLOAD_URL="https://developer.arm.com/-/media/Files/downloads/hpc/arm-perf
 set TARGET_DIR=apl\armpl_24.04\bin
 set TARGET_FILE=armpl-info.exe
 
+:: Check if the Windows Installer Service is running
+sc query msiserver | find "RUNNING"
+if %errorlevel%==0 (
+    echo Windows Installer Service is already running.
+) else (
+    echo Attempting to start the Windows Installer Service...
+    net start msiserver
+    if %errorlevel%==0 (
+        echo Windows Installer Service started successfully.
+    ) else (
+        echo Failed to start the Windows Installer Service. Please check your permissions and try again.
+        exit /b 1
+    )
+)
 
 :: Check if the file already exists in the destination directory
 :: TODO: smarter check mechanism can be used (e.g. call with error level)
