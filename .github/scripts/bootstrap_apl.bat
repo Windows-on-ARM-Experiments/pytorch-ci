@@ -10,6 +10,8 @@ set DOWNLOAD_URL="https://developer.arm.com/-/media/Files/downloads/hpc/arm-perf
 set TARGET_DIR=apl\armpl_24.04\bin
 set TARGET_FILE=armpl-info.exe
 
+echo enable-bootstrap-apl
+
 :: Check if the Windows Installer Service is running
 sc query msiserver | find "RUNNING"
 if %errorlevel%==0 (
