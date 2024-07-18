@@ -13,6 +13,9 @@ on:
         default: false
         type: boolean
 
+env:
+  SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -23,5 +26,5 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Bootstrap APL
-      run: |
+        run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
