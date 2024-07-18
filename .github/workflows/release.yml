@@ -70,6 +70,49 @@ jobs:
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
     timeout-minutes: 800
     steps:
-      - name: Bootstrap APL
+      - name: Get Release Version
+        run: echo "RELEASE_VERSION=v0.0.$(Get-Date -Format 'yyMMddHHmm')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Git checkout workflow
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.JOB_DIR }}/workflow
+      - name: Git checkout OpenBLAS
+        if: ${{ env.ENABLE_OPENBLAS }}
+        uses: actions/checkout@v4
+        with:
+          repository: "OpenMathLib/OpenBLAS"
+          ref: "v0.3.27"
+          path: ${{ env.DEPENDENCY_OPENBLAS_DIR }}
+          submodules: recursive
+      - name: Build OpenBLAS with MSVC
+        if: ${{ inputs.blas_type == 'openblas'}}
         run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
+          & ${{ env.SCRIPTS_DIR }}\build_openblas_msvc.bat
+      - name: Git checkout PyTorch
+        uses: actions/checkout@v4
+        with:
+          repository:  ${{ inputs.pytorch_repository }}
+          ref: ${{ inputs.pytorch_branch }}
+          path: ${{ env.PYTORCH_SOURCES_DIR }}
+          submodules: recursive
+      - name: Clean PyTorch
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_pytorch.bat
+      - name: Build PyTorch
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
+      - name: Convert Unix Slashes to Windows Slashes in WHEEL_DIR
+        run: |
+          $wheel_dir_win = "${{ env.WHEEL_DIR }}" -replace '\\', '/'
+          echo "WHEEL_DIR_WIN=$wheel_dir_win" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Create and Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: '${{ env.WHEEL_DIR_WIN }}/${{ env.WHEEL_NAME }}'
+          tag_name: ${{ env.RELEASE_VERSION }}
+          name: ${{ inputs.release_prefix }} - ${{ env.RELEASE_VERSION }}
+          body: 'PyTorch release wheel for Windows on ARM64 (cpu-only) (RelWithDebInfo)'
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
