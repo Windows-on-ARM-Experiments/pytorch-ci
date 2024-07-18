@@ -1,10 +1,13 @@
 :: For now, sccache is considered as already installed (script is not in use)
 
 @echo off
-echo Dependency sccache installation is started.
+
+set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
+set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
+
 :: Pre check for downloads and dependencies folders
-if not exist "%DOWNLOADS_DIR%" mkdir %DOWNLOADS_DIR%
-if not exist "%DEPENDENCIES_DIR%" mkdir %DEPENDENCIES_DIR%
+if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
+if not exist "%DEPENDENCIES_DIR%" mkdir "%DEPENDENCIES_DIR%"
 
 set DOWNLOAD_URL="https://github.com/mozilla/sccache/releases/download/v0.8.1/sccache-v0.8.1-x86_64-pc-windows-msvc.zip"
 set TARGET_DIR=sccache
