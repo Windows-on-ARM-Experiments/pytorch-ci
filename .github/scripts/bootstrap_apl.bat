@@ -1,6 +1,8 @@
 :: For now, APL is considered as already installed (script is not in use)
 
 @echo off
+setlocal enabledelayedexpansion
+
 echo Dependency APL installation is started.
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir %DOWNLOADS_DIR%
@@ -13,13 +15,13 @@ set TARGET_FILE=armpl-info.exe
 echo enable-bootstrap-apl
 
 :: Check if the Windows Installer Service is running
-sc query msiserver | find "RUNNING"
-if %errorlevel%==0 (
+sc query msiserver | find "RUNNING" >nul
+if !errorlevel!==0 (
     echo Windows Installer Service is already running.
 ) else (
     echo Attempting to start the Windows Installer Service...
     net start msiserver
-    if %errorlevel%==0 (
+    if !errorlevel!==0 (
         echo Windows Installer Service started successfully.
     ) else (
         echo Failed to start the Windows Installer Service. Please check your permissions and try again.
