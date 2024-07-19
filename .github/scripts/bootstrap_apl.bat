@@ -33,7 +33,7 @@ if !errorlevel!==0 (
 :: TODO: smarter check mechanism can be used (e.g. call with error level)
 if not exist "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" (
     echo Downloading arm-performance-libraries_24.04_Windows.msi...
-    curl -L -o "%DOWNLOADS_DIR%\arm-performance-libraries_24.04_Windows.msi" %DOWNLOAD_URL%
+    curl -L -o "%DOWNLOADS_DIR%" %DOWNLOAD_URL%
 
     echo Installing APL 24.04...
     msiexec /i "%DOWNLOADS_DIR%\arm-performance-libraries_24.04_Windows.msi" /qn /norestart ACCEPT_EULA=1 INSTALLFOLDER="%DEPENDENCIES_DIR%\apl"
