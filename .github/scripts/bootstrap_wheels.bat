@@ -1,8 +1,8 @@
 @echo off
 echo Downloading numpy and Scipy wheels for Windows ARM64...
 
-set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
-set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
+::set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
+:: set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
 
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
@@ -56,8 +56,18 @@ if not exist "%DEPENDENCIES_DIR%\%EXTRACT_DIR%" (
 )
 
 cd "%DEPENDENCIES_DIR%\%EXTRACT_DIR%"
-::dir
-pip install numpy
-pip install scipy
+dir
+@REM pip install numpy
+@REM pip install scipy
 
 echo Dependency installation is finished.
+
+if exist "%DOWNLOADS_DIR%" (
+    echo Deleting downloads directory...
+    rd /s /q "%DOWNLOADS_DIR%"
+)
+if exist "%DEPENDENCIES_DIR%" (
+    echo Deleting dependencies directory...
+    rd /s /q "%DEPENDENCIES_DIR%"
+)
+

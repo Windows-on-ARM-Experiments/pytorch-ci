@@ -37,6 +37,6 @@ jobs:
       # - name: Bootstrap Apl
       #   run: |
       #     & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
-      - name: Bootstrap VSTools
+      - name: Bootstrap Wheels
         run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_buildtools.bat
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_wheels.bat
