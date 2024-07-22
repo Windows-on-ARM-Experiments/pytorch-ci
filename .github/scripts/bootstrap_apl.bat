@@ -1,5 +1,4 @@
 :: For now, APL is considered as already installed (script is not in use)
-runas /user:Administrator
 
 @echo off
 echo Dependency APL installation is started.

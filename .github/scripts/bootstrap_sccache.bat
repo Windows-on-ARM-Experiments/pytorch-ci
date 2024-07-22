@@ -1,7 +1,7 @@
 :: For now, sccache is considered as already installed (script is not in use)
 
 @echo off
-
+echo Dependency sccache download start
 :: set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
 :: set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
 
