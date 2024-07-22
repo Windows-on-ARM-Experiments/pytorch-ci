@@ -4,8 +4,6 @@ echo Dependency ninja installation is started.
 :: set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
 :: set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
 
-
-
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
 if not exist "%DEPENDENCIES_DIR%" mkdir "%DEPENDENCIES_DIR%"
@@ -24,17 +22,20 @@ if not exist "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" (
     mkdir "%DEPENDENCIES_DIR%\%TARGET_DIR%"
     tar xf "%DOWNLOADS_DIR%\ninja.zip" -C "%DEPENDENCIES_DIR%\%TARGET_DIR%"
     echo Successfully installed: ninja
-    echo "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" >> %GITHUB_ENV%
+
+    :: add ninja to path
     echo "%DEPENDENCIES_DIR%\%TARGET_DIR%" >> %GITHUB_PATH%
+    
+    echo Dependency ninja installation is finished
 
     :: Verify ninja installation
     "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" --version
 
-    echo Dependency ninja installation is finished
 ) else (
-    echo Skipped download and install: ninja
+    echo Skipped download and install, ninja already exists
 )
 
-:: Verify ninja installation
-"%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" --version
+
+
+
 

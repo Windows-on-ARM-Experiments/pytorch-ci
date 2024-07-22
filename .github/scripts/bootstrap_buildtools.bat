@@ -31,15 +31,25 @@ if not exist "%INSTALLER_FILE%" (
 
 REM Install the MSVC Build Tools with C++ and ARM64/ARM64EC components
 echo Installing MSVC Build Tools with C++ and ARM64/ARM64EC components...
-"%INSTALLER_FILE%" --quiet --wait --norestart --nocache ^
+"%INSTALLER_FILE%" --quiet --wait --norestart --nocache --layout %DEPENDENCIES_DIR% ^
     --add Microsoft.VisualStudio.Workload.VCTools ^
     --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 ^
     --add Microsoft.VisualStudio.Component.VC.Tools.ARM64EC
 
-REM Check if installation was successful
+:: Check if installation was successful
 if %errorlevel% neq 0 (
     echo Failed to install MSVC Build Tools.
     exit /b 1
 )
 
 echo Successfully installed MSVC Build Tools with C++ and ARM64/ARM64EC components.
+
+:: Delete directories if they exist
+if exist "%DOWNLOADS_DIR%" (
+    echo Deleting downloads directory...
+    rd /s /q "%DOWNLOADS_DIR%"
+)
+if exist "%DEPENDENCIES_DIR%" (
+    echo Deleting dependencies directory...
+    rd /s /q "%DEPENDENCIES_DIR%"
+)
