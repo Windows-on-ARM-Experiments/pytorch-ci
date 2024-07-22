@@ -3,9 +3,9 @@ setlocal
 
 echo Dependency MSVC Build Tools installation is started.
 
-:: Define directories
-:: set "DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies"
-:: set "DOWNLOADS_DIR=C:\Users\spahontu\env\downloads"
+REM Define directories
+set "DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies"
+set "DOWNLOADS_DIR=C:\Users\spahontu\env\downloads"
 
 REM Pre-check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
@@ -31,25 +31,15 @@ if not exist "%INSTALLER_FILE%" (
 
 REM Install the MSVC Build Tools with C++ and ARM64/ARM64EC components
 echo Installing MSVC Build Tools with C++ and ARM64/ARM64EC components...
-"%INSTALLER_FILE%" --norestart --layout "%DEPENDENCIES_DIR%" ^
+"%INSTALLER_FILE%" --norestart --nocache --quiet --wait --installPath "%DEPENDENCIES_DIR%" ^
     --add Microsoft.VisualStudio.Workload.VCTools ^
     --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 ^
     --add Microsoft.VisualStudio.Component.VC.Tools.ARM64EC
 
-:: Check if installation was successful
+REM Check if installation was successful
 if %errorlevel% neq 0 (
     echo Failed to install MSVC Build Tools.
     exit /b 1
 )
 
 echo Successfully installed MSVC Build Tools with C++ and ARM64/ARM64EC components.
-
-:: Delete directories if they exist
-if exist "%DOWNLOADS_DIR%" (
-    echo Deleting downloads directory...
-    rd /s /q "%DOWNLOADS_DIR%"
-)
-if exist "%DEPENDENCIES_DIR%" (
-    echo Deleting dependencies directory...
-    rd /s /q "%DEPENDENCIES_DIR%"
-)
