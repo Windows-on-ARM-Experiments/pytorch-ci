@@ -14,9 +14,6 @@ on:
         type: boolean
 
 env:
-  JOB_DIR: ${{ github.workspace }}\pytorch-job
-  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
-  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -28,10 +25,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Bootstrap Ninja
+      - name: Bootstrap APL
         run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_ninja.bat
-      - name: Bootstrap Buildtools
-        run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_buildtools.bat
-      
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
