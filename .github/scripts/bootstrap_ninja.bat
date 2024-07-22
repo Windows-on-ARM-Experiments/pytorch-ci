@@ -1,6 +1,15 @@
 @echo off
 echo Dependency ninja installation is started.
 
+if exist "%DOWNLOADS_DIR%" (
+    echo Deleting downloads directory...
+    rd /s /q "%DOWNLOADS_DIR%"
+)
+if exist "%DEPENDENCIES_DIR%" (
+    echo Deleting dependencies directory...
+    rd /s /q "%DEPENDENCIES_DIR%"
+)
+
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
 if not exist "%DEPENDENCIES_DIR%" mkdir "%DEPENDENCIES_DIR%"

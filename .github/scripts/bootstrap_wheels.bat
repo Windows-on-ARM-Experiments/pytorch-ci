@@ -48,21 +48,20 @@ if not exist "%DEPENDENCIES_DIR%\%EXTRACT_DIR%" (
         exit /b 1
     )
 
-    echo Successfully installed: %EXTRACT_DIR%
+    echo Successfully extracted wheels: %EXTRACT_DIR%
+
+    cd "%DEPENDENCIES_DIR%\%EXTRACT_DIR%"
+
+    if "%PYTHON_MAJOR%.%PYTHON_MINOR%"=="3.11" (
+        pip install numpy-1.26.2-cp311-cp311-win_arm64.whl
+        pip install SciPy-1.11.4-cp311-cp311-win_arm64.whl
+    ) else (
+        pip install numpy-2.0.0-cp312-cp312-win_arm64.whl
+        pip install scipy-1.13.1-cp312-cp312-win_arm64.whl
+    )
+
+    echo Dependency installation is finished.
+
 ) else (
     echo Skipped download and install: %EXTRACT_DIR%
 )
-
-cd "%DEPENDENCIES_DIR%\%EXTRACT_DIR%"
-dir
-
-if "%PYTHON_MAJOR%.%PYTHON_MINOR%"=="3.11" (
-    pip install numpy-1.26.2-cp311-cp311-win_arm64.whl
-    pip install SciPy-1.11.4-cp311-cp311-win_arm64.whl
-) else (
-    pip install numpy-2.0.0-cp312-cp312-win_arm64.whl
-    pip install scipy-1.13.1-cp312-cp312-win_arm64.whl
-)
-
-echo Dependency installation is finished.
-
