@@ -1,8 +1,8 @@
 @echo off
 echo Dependency ninja installation is started.
 
-@REM set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
-@REM set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
+:: set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
+:: set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
 
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"

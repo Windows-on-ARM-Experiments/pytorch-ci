@@ -13,7 +13,6 @@ on:
         default: false
         type: boolean
 
-
 env:
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
 
@@ -23,6 +22,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Bootstrap Ninja
