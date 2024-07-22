@@ -31,7 +31,7 @@ if not exist "%INSTALLER_FILE%" (
 
 REM Install the MSVC Build Tools with C++ and ARM64/ARM64EC components
 echo Installing MSVC Build Tools with C++ and ARM64/ARM64EC components...
-"%INSTALLER_FILE%" --quiet --wait --norestart --nocache --layout %DEPENDENCIES_DIR% ^
+"%INSTALLER_FILE%" --norestart --layout "%DEPENDENCIES_DIR%" ^
     --add Microsoft.VisualStudio.Workload.VCTools ^
     --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 ^
     --add Microsoft.VisualStudio.Component.VC.Tools.ARM64EC
