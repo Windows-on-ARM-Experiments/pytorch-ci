@@ -18,15 +18,6 @@ env:
   DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
   DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
-  PYTORCH_SOURCES_DIR:  ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}
-  WHEEL_DIR: ${{ github.workspace }}\pytorch-job\src\${{ inputs.pytorch_repository }}\${{ inputs.pytorch_branch }}\dist
-  WHEEL_NAME: ${{ inputs.wheel_name }}
-  ENABLE_BUILD_WHEEL: 1
-  ENABLE_APL: ${{ inputs.blas_type == 'apl' && '1' || '0' }}
-  ENABLE_OPENBLAS: ${{ (inputs.blas_type == 'openblas' || inputs.blas_type == 'openblas_clang') && '1' || '0' }}
-  DEPENDENCY_SCCACHE_DIR: ${{ github.workspace }}\pytorch-job\dependencies\sccache
-  DEPENDENCY_APL_DIR: ${{ github.workspace }}\pytorch-job\dependencies\apl\armpl_24.04\bin
-  DEPENDENCY_OPENBLAS_DIR: ${{ github.workspace }}\pytorch-job\dependencies\openblas
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
