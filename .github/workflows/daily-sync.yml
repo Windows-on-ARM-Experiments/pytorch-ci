@@ -15,7 +15,8 @@ on:
 
 env:
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
-
+  JOB_DIR: ${{ github.workspace }}\pytorch-job
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -25,6 +26,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Git checkout workflow
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.JOB_DIR }}/workflow
       - name: Bootstrap Test
         run: |
           $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
