@@ -1,10 +1,9 @@
 :: For now, sccache is considered as already installed (script is not in use)
 
 @echo off
-echo Dependency sccache download start
+echo Dependency sccache installation started 
 :: set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
 :: set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
-
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
 if not exist "%DEPENDENCIES_DIR%" mkdir "%DEPENDENCIES_DIR%"
