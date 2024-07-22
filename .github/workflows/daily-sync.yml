@@ -27,4 +27,4 @@ jobs:
     steps:
       - name: Bootstrap APL
         run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_ninja.bat
