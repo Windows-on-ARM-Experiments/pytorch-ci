@@ -26,9 +26,11 @@ if not exist "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" (
     echo Skipped download and install: ninja
 )
 
+
+echo "%DEPENDENCIES_DIR%\%TARGET_DIR%" >> %GITHUB_ENV%
 echo "%DEPENDENCIES_DIR%\%TARGET_DIR%" >> %GITHUB_PATH%
 
-echo Dependency ninja installation is finished
-
 ninja --version
+
+echo Dependency ninja installation is finished
 
