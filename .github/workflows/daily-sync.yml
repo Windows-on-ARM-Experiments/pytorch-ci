@@ -16,7 +16,8 @@ on:
 env:
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
   JOB_DIR: ${{ github.workspace }}\pytorch-job
-  
+  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
+  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
