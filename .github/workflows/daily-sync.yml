@@ -26,5 +26,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Bootstrap Test
-        run: icacls "${{ env.SCRIPTS_DIR }}" /grant %USERNAME%:RX /t  
-        
+        run: |
+          $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+          icacls "${{ env.SCRIPTS_DIR }}" /grant "$username:(RX)" /t
