@@ -2,8 +2,8 @@
 
 @echo off
 
-set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
-set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
+:: set DEPENDENCIES_DIR=C:\Users\spahontu\env\dependencies
+:: set DOWNLOADS_DIR=C:\Users\spahontu\env\downloads
 
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
