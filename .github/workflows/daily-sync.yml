@@ -28,4 +28,4 @@ jobs:
       - name: Bootstrap Test
         run: |
           $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-          icacls "${{ env.SCRIPTS_DIR }}" /grant "$username:(RX)" /t
+          icacls "${{ env.SCRIPTS_DIR }}" /grant "${username}:(RX)" /t
