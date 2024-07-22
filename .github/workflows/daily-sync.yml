@@ -30,7 +30,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: ${{ env.JOB_DIR }}/workflow
-      - name: Bootstrap Test
+      - name: Bootstrap Ninja
         run: |
-          $username = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-          icacls "${{ env.SCRIPTS_DIR }}" /grant "${username}:(RX)" /t
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_ninja.bat
+      - name: Bootstrap Ninja
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
+      - name: Bootstrap VSTools
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_buildtools.bat
