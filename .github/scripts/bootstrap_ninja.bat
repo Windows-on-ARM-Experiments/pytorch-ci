@@ -1,20 +1,20 @@
 @echo off
 echo Dependency ninja installation is started.
 
-if exist "%DOWNLOADS_DIR%" (
-    echo Deleting downloads directory...
-    rd /s /q "%DOWNLOADS_DIR%"
-)
-if exist "%DEPENDENCIES_DIR%" (
-    echo Deleting dependencies directory...
-    rd /s /q "%DEPENDENCIES_DIR%"
-)
+@REM if exist "%DOWNLOADS_DIR%" (
+@REM     echo Deleting downloads directory...
+@REM     rd /s /q "%DOWNLOADS_DIR%"
+@REM )
+@REM if exist "%DEPENDENCIES_DIR%" (
+@REM     echo Deleting dependencies directory...
+@REM     rd /s /q "%DEPENDENCIES_DIR%"
+@REM )
 
 :: Pre check for downloads and dependencies folders
 if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
 if not exist "%DEPENDENCIES_DIR%" mkdir "%DEPENDENCIES_DIR%"
 
-set DOWNLOAD_URL="https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-win.zip"
+set DOWNLOAD_URL="https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-winarm64.zip"
 set TARGET_DIR=ninja
 set TARGET_FILE=ninja.exe
 
