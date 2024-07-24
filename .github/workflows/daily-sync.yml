@@ -12,7 +12,9 @@ on:
         required: false
         default: false
         type: boolean
-
+  push:
+    branches:
+      - enable-bootstrap-apl
 env:
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
   JOB_DIR: ${{ github.workspace }}\pytorch-job
