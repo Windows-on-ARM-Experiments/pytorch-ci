@@ -5,14 +5,12 @@ setlocal enabledelayedexpansion
 
 echo Dependency APL installation is started.
 :: Pre check for downloads and dependencies folders
-if not exist "%DOWNLOADS_DIR%" mkdir %DOWNLOADS_DIR%
-if not exist "%DEPENDENCIES_DIR%" mkdir %DEPENDENCIES_DIR%
+if not exist "%DOWNLOADS_DIR%" mkdir "%DOWNLOADS_DIR%"
+if not exist "%DEPENDENCIES_DIR%" mkdir "%DEPENDENCIES_DIR%"
 
 set DOWNLOAD_URL="https://developer.arm.com/-/cdn-downloads/permalink/Arm-Performance-Libraries/Version_24.04/arm-performance-libraries_24.04_Windows.msi"
 set TARGET_DIR=apl\armpl_24.04\bin
 set TARGET_FILE=armpl-info.exe
-
-echo enable-bootstrap-apl
 
 :: Check if the Windows Installer Service is running
 sc query msiserver | find "RUNNING" >nul

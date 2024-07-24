@@ -12,9 +12,14 @@ on:
         required: false
         default: false
         type: boolean
-
+  push:
+    branches:
+      - enable-bootstrap-apl
 env:
   SCRIPTS_DIR: ${{ github.workspace }}\pytorch-job\workflow\.github\scripts
+  JOB_DIR: ${{ github.workspace }}\pytorch-job
+  DOWNLOADS_DIR: ${{ github.workspace }}\pytorch-job\downloads
+  DEPENDENCIES_DIR: ${{ github.workspace }}\pytorch-job\dependencies
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,6 +30,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Git checkout workflow
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.JOB_DIR }}/workflow
       - name: Bootstrap APL
         run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
