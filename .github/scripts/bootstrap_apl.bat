@@ -8,7 +8,7 @@ echo Dependency APL installation is started.
 if not exist "%DOWNLOADS_DIR%" mkdir %DOWNLOADS_DIR%
 if not exist "%DEPENDENCIES_DIR%" mkdir %DEPENDENCIES_DIR%
 
-set DOWNLOAD_URL="https://developer.arm.com/-/media/Files/downloads/hpc/arm-performance-libraries/24-04/windows/arm-performance-libraries_24.04_Windows.msi?rev=2b30cf856f7d4e6b968ce7f3698c1088&revision=2b30cf85-6f7d-4e6b-968c-e7f3698c1088"
+set DOWNLOAD_URL="https://developer.arm.com/-/cdn-downloads/permalink/Arm-Performance-Libraries/Version_24.04/arm-performance-libraries_24.04_Windows.msi"
 set TARGET_DIR=apl\armpl_24.04\bin
 set TARGET_FILE=armpl-info.exe
 
