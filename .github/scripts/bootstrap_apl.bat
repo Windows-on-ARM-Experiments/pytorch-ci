@@ -11,9 +11,6 @@ set DOWNLOAD_URL="https://developer.arm.com/-/media/Files/downloads/hpc/arm-perf
 set TARGET_DIR=apl\armpl_24.04\bin
 set TARGET_FILE=armpl-info.exe
 
-echo Starting msiexec service...
-net start msiserver
-
 :: Check if the file already exists in the destination directory
 :: TODO: smarter check mechanism can be used (e.g. call with error level)
 if not exist "%DEPENDENCIES_DIR%\%TARGET_DIR%\%TARGET_FILE%" (
