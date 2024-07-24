@@ -1,7 +1,6 @@
 :: For now, APL is considered as already installed (script is not in use)
 
 @echo off
-setlocal enabledelayedexpansion
 
 echo Dependency APL installation is started.
 :: Pre check for downloads and dependencies folders
@@ -14,21 +13,6 @@ set TARGET_FILE=armpl-info.exe
 
 echo Starting msiexec service...
 net start msiserver
-
-:: Check if the Windows Installer Service is running
-sc query msiserver | find "RUNNING" >nul
-if !errorlevel!==0 (
-    echo Windows Installer Service is already running.
-) else (
-    echo Attempting to start the Windows Installer Service...
-    net start msiserver
-    if !errorlevel!==0 (
-        echo Windows Installer Service started successfully.
-    ) else (
-        echo Failed to start the Windows Installer Service. Please check your permissions and try again.
-        exit /b 1
-    )
-)
 
 :: Check if the file already exists in the destination directory
 :: TODO: smarter check mechanism can be used (e.g. call with error level)
