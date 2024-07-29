@@ -77,3 +77,15 @@ Click `Run workflow` and fill inputs.
 - `Enable PyTorch archive build output?`: If it should generate artifact from PyTorch build output.
 
 - `Enable PyTorch tests run?`: If it should run tests
+
+# Run the tests locally
+
+- `test_core.bat`:
+    - Executes all core test suites
+    - Accepts a single argument specifying the number of times the tests should be run 
+
+
+- `test_individual.bat`: takes 3 arguments:
+    - first one: Number of Runs => An *__integer__* that indicates how many times to run the test.
+    - second one: Test Name => A *__string__* specifying the name of the test to run (e.g., test_autograd, test_torch)
+    - third one: Filter Word => A *__string__* to filter specific test cases (e.g., deadlock, complex128).
