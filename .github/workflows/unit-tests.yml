@@ -86,7 +86,6 @@ jobs:
   build_and_test:
     name: Build and run tests
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
-    environment: pytorch
     timeout-minutes: 800
     steps:
       - name: Git checkout workflow
@@ -125,9 +124,6 @@ jobs:
         if: ${{ inputs.is_build_pytorch }}
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-        env:
-          SCCACHE_AZURE_CONNECTION_STRING: ${{ secrets.SCCACHE_AZURE_CONNECTION_STRING_BUILD }}
-          SCCACHE_AZURE_BLOB_CONTAINER: ${{ secrets.SCCACHE_AZURE_BLOB_CONTAINER }}
       - name: Archive PyTorch
         if: ${{ inputs.is_archive_pytorch }}
         uses: actions/upload-artifact@v4

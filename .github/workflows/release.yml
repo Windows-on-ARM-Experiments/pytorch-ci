@@ -68,7 +68,6 @@ jobs:
   create_release:
     name: Create Release
     runs-on: [self-hosted, Windows, ARM64, PYTORCH]
-    environment: pytorch
     timeout-minutes: 800
     steps:
       - name: Get Release Version
@@ -102,9 +101,6 @@ jobs:
       - name: Build PyTorch
         run: |
           & ${{ env.SCRIPTS_DIR }}\build_pytorch.bat
-        env:
-          SCCACHE_AZURE_CONNECTION_STRING: ${{ secrets.SCCACHE_AZURE_CONNECTION_STRING_RELEASE }}
-          SCCACHE_AZURE_BLOB_CONTAINER: ${{ secrets.SCCACHE_AZURE_BLOB_CONTAINER }}
       - name: Convert Unix Slashes to Windows Slashes in WHEEL_DIR
         run: |
           $wheel_dir_win = "${{ env.WHEEL_DIR }}" -replace '\\', '/'
