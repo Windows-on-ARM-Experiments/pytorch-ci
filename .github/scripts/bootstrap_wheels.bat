@@ -50,6 +50,15 @@ if not exist "%DEPENDENCIES_DIR%\%EXTRACT_DIR%" (
 
     echo Successfully extracted wheels: %EXTRACT_DIR%
 
+    :: move to pytorch build folder
+    cd %PYTORCH_SOURCES_DIR%
+    :: create virtual environment
+    
+    python -m venv venv
+    echo * > venv\.gitignore
+    call .\venv\Scripts\activate
+
+    :: move back to wheels directory and isntall numpy and scipy
     cd "%DEPENDENCIES_DIR%\%EXTRACT_DIR%"
 
     if "%PYTHON_MAJOR%.%PYTHON_MINOR%"=="3.11" (

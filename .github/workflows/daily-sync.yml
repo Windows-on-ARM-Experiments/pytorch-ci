@@ -34,9 +34,9 @@ jobs:
       - name: Bootstrap Ninja
         run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_ninja.bat
-      # - name: Bootstrap Apl
-      #   run: |
-      #     & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
+      - name: Bootstrap Sccache
+        run: |
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_sccache.bat
       - name: Bootstrap Wheels
         run: |
           & ${{ env.SCRIPTS_DIR }}\bootstrap_wheels.bat
