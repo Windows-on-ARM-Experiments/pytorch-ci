@@ -50,15 +50,14 @@ if not exist "%DEPENDENCIES_DIR%\%EXTRACT_DIR%" (
 
     echo Successfully extracted wheels: %EXTRACT_DIR%
 
-    :: move to pytorch build folder
+    :: Move to PyTorch build folder
     cd %PYTORCH_SOURCES_DIR%
-    :: create virtual environment
-    
+    :: Create virtual environment
     python -m venv venv
     echo * > venv\.gitignore
     call .\venv\Scripts\activate
 
-    :: move back to wheels directory and isntall numpy and scipy
+    :: Move back to wheels directory and install numpy and scipy
     cd "%DEPENDENCIES_DIR%\%EXTRACT_DIR%"
 
     if "%PYTHON_MAJOR%.%PYTHON_MINOR%"=="3.11" (
@@ -70,7 +69,6 @@ if not exist "%DEPENDENCIES_DIR%\%EXTRACT_DIR%" (
     )
 
     echo Dependency installation is finished.
-
 ) else (
     echo Skipped download and install: %EXTRACT_DIR%
 )
