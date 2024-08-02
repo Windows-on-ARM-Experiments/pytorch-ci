@@ -13,7 +13,6 @@ if "%ENABLE_APL%"=="1" (
 set REL_WITH_DEB_INFO=1
 set CMAKE_BUILD_TYPE=RelWithDebInfo
 set USE_LAPACK=1
-set USE_NUMPY=OFF
 set CMAKE_C_COMPILER_LAUNCHER=sccache
 set CMAKE_CXX_COMPILER_LAUNCHER=sccache
 
@@ -29,8 +28,45 @@ echo * > venv\.gitignore
 call .\venv\Scripts\activate
 where python
 
+set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2023.12.6/2023.12.6-experimental-cp311-win_arm64.whl.zip"
+set ZIP_FILE="2023.12.6-experimental-cp311-win_arm64.whl.zip"
+set EXTRACT_DIR="2023.12.6-experimental-cp311-win_arm64.whl"
+
+if exist "%EXTRACT_DIR%" (
+    echo Extraction directory "%EXTRACT_DIR%" already exists. Skipping download and installation.
+    exit /b 0
+) else (  
+    echo Downloading ZIP file from %WHEELS_URL%...
+    curl -L -o "%ZIP_FILE%" "%WHEELS_URL%"
+:: Check if download was successful
+    if %errorlevel% neq 0 (
+      echo Failed to download the ZIP file.
+      exit /b 1
+    )
+
+:: Unzip the file using tar
+    echo Unzipping file %ZIP_FILE%...
+    tar xf %ZIP_FILE%
+:: Check if unzip was successful
+    if %errorlevel% neq 0 (
+      echo Failed to unzip the file.
+      exit /b 1
+    )
+)
+
+cd %EXTRACT_DIR%
+dir
 :: python install dependencies
 python -m pip install --upgrade pip
+
+:: install numpy and Scipy experimental wheels
+pip install numpy-1.26.2-cp311-cp311-win_arm64.whl
+pip install SciPy-1.11.4-cp311-cp311-win_arm64.whl
+
+:: change back to source directory
+cd %PYTORCH_SOURCES_DIR%
+
+:: install pytorch dependencies
 pip install -r requirements.txt
  
 :: activate visual studio
