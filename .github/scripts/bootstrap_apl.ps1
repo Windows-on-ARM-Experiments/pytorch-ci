@@ -10,6 +10,21 @@ if (-not (Test-Path -Path $env:DEPENDENCIES_DIR)) {
     New-Item -ItemType Directory -Path $env:DEPENDENCIES_DIR
 }
 
+# Check if the Windows Installer Service is running
+$service = Get-Service -Name msiserver -ErrorAction SilentlyContinue
+if ($service.Status -eq 'Running') {
+    Write-Output "Windows Installer Service is already running."
+} else {
+    Write-Output "Attempting to start the Windows Installer Service..."
+    Start-Service -Name msiserver
+    if ((Get-Service -Name msiserver).Status -eq 'Running') {
+        Write-Output "Windows Installer Service started successfully."
+    } else {
+        Write-Output "Failed to start the Windows Installer Service. Please check your permissions and try again."
+        exit 1
+    }
+}
+
 $DOWNLOAD_URL = "https://developer.arm.com/-/cdn-downloads/permalink/Arm-Performance-Libraries/Version_24.04/arm-performance-libraries_24.04_Windows.msi"
 $TARGET_DIR = "apl\armpl_24.04\bin"
 $TARGET_FILE = "armpl-info.exe"
