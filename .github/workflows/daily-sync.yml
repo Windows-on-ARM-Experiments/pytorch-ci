@@ -36,4 +36,4 @@ jobs:
           path: ${{ env.JOB_DIR }}/workflow
       - name: Bootstrap APL
         run: |
-          & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.bat
+          & ${{ env.SCRIPTS_DIR }}\bootstrap_apl.ps1
