@@ -20,5 +20,10 @@ if (-not (Test-Path -Path "$env:DEPENDENCIES_DIR\$TARGET_DIR\$TARGET_FILE")) {
     Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile "$env:DOWNLOADS_DIR\arm-performance-libraries_24.04_Windows.msi"
 
     Write-Output "Installing APL 24.04..."
-    # Add installation command here
+    msiexec /i $env:DOWNLOADS_DIR\arm-performance-libraries_24.04_Windows.msi /quiet /qn /norestart /log $env:DOWNLOADS_DIR\apl_install.log
 }
+else {
+    Write-Output "APL 24.04 is already installed."
+}
+
+Write-Output "Dependency APL installation is finished."
