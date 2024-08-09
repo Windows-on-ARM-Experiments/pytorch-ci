@@ -28,9 +28,9 @@ echo * > venv\.gitignore
 call .\venv\Scripts\activate
 where python
 
-set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2023.12.6/2023.12.6-experimental-cp311-win_arm64.whl.zip"
-set ZIP_FILE="2023.12.6-experimental-cp311-win_arm64.whl.zip"
-set EXTRACT_DIR="2023.12.6-experimental-cp311-win_arm64.whl"
+set WHEELS_URL="https://github.com/cgohlke/win_arm64-wheels/releases/download/v2023.4.1/2023.4.1-experimental-cp311-win_arm64.whl.zip"
+set ZIP_FILE="2023.4.1-experimental-cp311-win_arm64.whl.zip"
+set EXTRACT_DIR="2023.4.1-experimental-cp311-win_arm64.whl"
 
 if exist "%EXTRACT_DIR%" (
     echo Extraction directory "%EXTRACT_DIR%" already exists. Skipping download and installation.
